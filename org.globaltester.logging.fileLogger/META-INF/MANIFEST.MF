@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: FileLogger
+Bundle-SymbolicName: org.globaltester.logging.fileLogger
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.globaltester.logging.filelogger.Activator
+Require-Bundle: org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy
