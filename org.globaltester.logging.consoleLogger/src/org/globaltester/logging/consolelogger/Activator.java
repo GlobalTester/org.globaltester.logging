@@ -3,6 +3,8 @@ package org.globaltester.logging.consolelogger;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.globaltester.logging.filterservice.LogFilterService;
+import org.globaltester.logging.formatservice.LogFormatService;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
@@ -20,6 +22,22 @@ public class Activator implements BundleActivator {
 	private LinkedList<LogReaderService> readers = new LinkedList<>();
 	private ConsoleLogger consoleLogger = new ConsoleLogger();
 	private ServiceTracker<LogReaderService, LogReaderService> logReaderTracker;
+	private static ServiceTracker<LogFilterService, LogFilterService> logFilterTracker;
+	private static ServiceTracker<LogFormatService, LogFormatService> logFormatTracker;
+	
+	public static LogFilterService getLogFilterService(){
+		if (logFilterTracker != null){
+			return logFilterTracker.getService();
+		}
+		return null;
+	}
+	
+	public static LogFormatService getLogFormatService(){
+		if (logFormatTracker != null){
+			return logFormatTracker.getService();
+		}
+		return null;
+	}
 	
 	// This will be used to keep track of listeners as they are un/registering
 	private ServiceListener serviceListener = new ServiceListener() {
@@ -51,6 +69,12 @@ public class Activator implements BundleActivator {
 	 */
 	public void start(BundleContext context) throws Exception {
 		
+        logFilterTracker = new ServiceTracker<>(context, LogFilterService.class.getName(), null);
+        logFilterTracker.open();
+        
+        logFormatTracker = new ServiceTracker<>(context, LogFormatService.class.getName(), null);
+        logFormatTracker.open();
+        
 		logReaderTracker = new ServiceTracker<>(context, LogReaderService.class.getName(), null);
 		logReaderTracker.open();
 		Object[] readers = logReaderTracker.getServices();
@@ -85,6 +109,8 @@ public class Activator implements BundleActivator {
             iterator.remove();
         }
 		logReaderTracker.close();
+		logFilterTracker.close();
+		logFormatTracker.close();
 
 	}
 
