@@ -7,7 +7,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.LogRecord;
 
+import org.globaltester.logging.filterservice.LogReader;
+import org.globaltester.logging.filterservice.LogReaderConfig;
 import org.osgi.service.log.LogEntry;
 import org.osgi.service.log.LogListener;
 
@@ -16,8 +19,9 @@ import org.osgi.service.log.LogListener;
  * @author mboonk
  *
  */
-public class FileLogger implements LogListener {
-
+public class FileLogger extends LogReader {
+	
+	LogReaderConfig lrc = new LogReaderConfig();
 	DateFormat format = DateFormat.getDateTimeInstance();
 	String logFileName = "logs" + File.separator + "PersoSim_OSGi_" + new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime()) + ".log";
 	File file = new File(logFileName);
@@ -28,6 +32,7 @@ public class FileLogger implements LogListener {
 	
 	@Override
 	public void logged(LogEntry entry) {
+		
 		if (!file.exists()){
 			try {
 				if (writer != null){
@@ -40,9 +45,16 @@ public class FileLogger implements LogListener {
 				e.printStackTrace();
 			}
 		}
-		if (entry.getMessage() != null){
-			writer.println("[" + entry.getBundle().getSymbolicName() + " - " + format.format(new Date(entry.getTime())) + "] "  + entry.getMessage());
+		
+		if(lrc.andFilter.perform(entry)){
+			// format the entry
+			String logEntry = lrc.formatter.format(entry);			
+			if (entry.getMessage() != null){
+				//write formatted entry
+				writer.println(logEntry);
+			}
 		}
+
 	}
 
 }
