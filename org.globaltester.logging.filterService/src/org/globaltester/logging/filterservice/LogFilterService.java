@@ -1,7 +1,5 @@
 package org.globaltester.logging.filterservice;
 
-import java.util.LinkedList;
-
 import org.osgi.service.log.LogEntry;
 
 /**
@@ -12,21 +10,21 @@ import org.osgi.service.log.LogEntry;
  */
 public interface LogFilterService {	
 	
-	public void setLogLevels(byte[] loglevels);
-	
-	public byte [] getLogLevels();
-	
-	public void setBundleFilters(LinkedList<String> bundleFilters);
-	
-	/**
-	 * saves filter data in the preferences
-	 */
-	public void saveFilter();
-	
-	/**
-	 * loads filter data from preferences
-	 */
-	public void loadFilter();
+//	public void setLogLevels(byte[] loglevels);
+//	
+//	public byte [] getLogLevels();
+//	
+//	public void setBundleFilters(LinkedList<String> bundleFilters);
+//	
+//	/**
+//	 * saves filter data in the preferences
+//	 */
+//	public void saveFilter();
+//	
+//	/**
+//	 * loads filter data from preferences
+//	 */
+//	public void loadFilter();
 	
 	/**
 	 * Filters a LogEntry object and return true or false if the LogEntry object
