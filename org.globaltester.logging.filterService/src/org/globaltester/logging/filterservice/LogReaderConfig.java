@@ -4,7 +4,7 @@ import org.globaltester.logging.formatservice.LogFormat;
 
 public class LogReaderConfig {
 	
-	byte logLevels [] ={1};
+	byte logLevels [] ={1,2,3,4,5,6,120};
 	String bundleList [] = {"de.persosim.simulator"};
 	
 	public LogFormat formatter = new LogFormat();
@@ -13,5 +13,5 @@ public class LogReaderConfig {
 	
 	
 	LogFilterService [] filters = {bundleFilter, levelFilter};
-	public NotFilter andFilter = new NotFilter(filters);
+	public AndFilter andFilter = new AndFilter(filters);
 }
