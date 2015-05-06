@@ -1,6 +1,6 @@
 package org.globaltester.logging.consolelogger;
 
-import org.globaltester.logging.filterservice.LogReader;
+import org.globaltester.logging.AbstractLogListener;
 import org.osgi.service.log.LogEntry;
 import org.osgi.service.log.LogListener;
 
@@ -10,7 +10,7 @@ import org.osgi.service.log.LogListener;
  * @author mboonk
  *
  */
-public class ConsoleLogger extends LogReader {
+public class ConsoleLogger extends AbstractLogListener {
 
 	@Override
 	public void displayLogMessage(String msg) {

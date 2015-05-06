@@ -7,8 +7,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import org.globaltester.logging.filterservice.LogReader;
-import org.globaltester.logging.filterservice.LogReaderConfig;
+import org.globaltester.logging.AbstractLogListener;
+import org.globaltester.logging.LogListenerConfigImpl;
 import org.osgi.service.log.LogEntry;
 import org.osgi.service.log.LogListener;
 
@@ -17,9 +17,9 @@ import org.osgi.service.log.LogListener;
  * @author mboonk
  *
  */
-public class FileLogger extends LogReader {
+public class FileLogger extends AbstractLogListener {
 	
-	LogReaderConfig lrc = new LogReaderConfig();
+	LogListenerConfigImpl lrc = new LogListenerConfigImpl();
 	DateFormat format = DateFormat.getDateTimeInstance();
 	String logFileName = "logs" + File.separator + "PersoSim_OSGi_" + new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime()) + ".log";
 	File file = new File(logFileName);

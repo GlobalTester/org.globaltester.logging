@@ -3,8 +3,6 @@ package org.globaltester.logging.consolelogger;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import org.globaltester.logging.filterservice.LogFilter;
-import org.globaltester.logging.formatservice.LogFormatService;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
