@@ -1,46 +1,35 @@
 package org.globaltester.logging.filterservice;
 
-import java.util.LinkedList;
-
 import org.osgi.service.log.LogEntry;
 
-public class AndFilter {
+/**
+ * Filtering evaluates as logical AND of the results of all containes filters
+ * 
+ * During evaluation of the filter result all filters are evaluated regardless
+ * of the intermediate result (no shortcut evaluation). This ensures that all
+ * encapsulated filters are notified of all available messages (e.g. in order to
+ * track progress).
+ * 
+ * @author jkoch
+ *
+ */
+public class AndFilter implements LogFilter{
 
-	private LogFilterService [] filters;
-
+	private LogFilter [] filters;
 	
-	public AndFilter(LogFilterService [] filters) {
+	public AndFilter(LogFilter [] filters) {
 		this.filters=filters;
 	}
-	
 
-	/**
-	 * This method checks all filters with an 'and' logic.
-	 * If one filter answers with false the entry shouldn't be logged.
-	 * 
-	 * @param entry
-	 *            Log entry that should be checked
-	 * @return true if entry should be logged or false if not
-	 */
-	public boolean perform(LogEntry entry) {
+	@Override
+	public boolean logFilter(LogEntry entry) {
 		
-		boolean log = false;
-		
-		for (LogFilterService filter : filters) {
-			
-			// check bundles
-			if (filter instanceof BundleFilter) {
-				if (filter.logFilter(entry)) log = true;
-				else return false;
-			}
+		boolean log = true;
 
-			// check log level
-			if (filter instanceof LevelFilter) {
-				if (filter.logFilter(entry)) log = true;
-				else return false;
-			}
-		}
-		
+		for (LogFilter filter : filters) {
+			// evaluate current filter
+			log &= filter.logFilter(entry);
+		}		
 		return log;
 	}
 }
