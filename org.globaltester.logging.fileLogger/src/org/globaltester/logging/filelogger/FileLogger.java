@@ -46,7 +46,7 @@ public class FileLogger extends LogReader {
 			}
 		}
 		
-		if(lrc.andFilter.perform(entry)){
+		if(lrc.checkFilter(entry)){
 			// format the entry
 			String logEntry = lrc.formatter.format(entry);			
 			if (entry.getMessage() != null){
