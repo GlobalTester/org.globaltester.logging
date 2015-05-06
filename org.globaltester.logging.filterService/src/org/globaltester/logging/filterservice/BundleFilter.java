@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 import org.osgi.service.log.LogEntry;
 
-public class BundleFilter implements LogFilterService {
+public class BundleFilter implements LogFilter {
 
 	private LinkedList<String> bundleFilters = new LinkedList<String>();
 	

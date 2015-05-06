@@ -7,7 +7,7 @@ import org.osgi.service.log.LogEntry;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
-public class LevelFilter implements LogFilterService{
+public class LevelFilter implements LogFilter{
 
 	private byte[] logLevels;
 
