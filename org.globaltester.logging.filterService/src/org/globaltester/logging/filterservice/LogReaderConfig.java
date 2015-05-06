@@ -1,6 +1,7 @@
 package org.globaltester.logging.filterservice;
 
 import org.globaltester.logging.formatservice.LogFormat;
+import org.osgi.service.log.LogEntry;
 
 public class LogReaderConfig {
 	
@@ -14,4 +15,8 @@ public class LogReaderConfig {
 	
 	LogFilterService [] filters = {bundleFilter, levelFilter};
 	public AndFilter andFilter = new AndFilter(filters);
+	
+	public boolean checkFilter(LogEntry entry){		
+		return andFilter.perform(entry);
+	}
 }
