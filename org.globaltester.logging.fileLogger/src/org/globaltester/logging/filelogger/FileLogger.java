@@ -6,8 +6,6 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.logging.LogRecord;
 
 import org.globaltester.logging.filterservice.LogReader;
 import org.globaltester.logging.filterservice.LogReaderConfig;
@@ -29,13 +27,13 @@ public class FileLogger extends LogReader {
 	
 	public FileLogger() {
 	}
-	
+
 	@Override
-	public void logged(LogEntry entry) {
-		
-		if (!file.exists()){
+	public void displayLogMessage(String msg) {
+
+		if (!file.exists()) {
 			try {
-				if (writer != null){
+				if (writer != null) {
 					writer.flush();
 					writer.close();
 				}
@@ -45,14 +43,10 @@ public class FileLogger extends LogReader {
 				e.printStackTrace();
 			}
 		}
-		
-		if(lrc.checkFilter(entry)){
-			// format the entry
-			String logEntry = lrc.formatter.format(entry);			
-			if (entry.getMessage() != null){
-				//write formatted entry
-				writer.println(logEntry);
-			}
+
+		if (msg != null) {
+			// write formatted entry
+			writer.println(msg);
 		}
 
 	}

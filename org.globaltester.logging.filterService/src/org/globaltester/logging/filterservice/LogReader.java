@@ -5,5 +5,22 @@ import org.osgi.service.log.LogListener;
 
 public abstract class LogReader implements LogListener {
 	
-	public abstract void logged(LogEntry entry);
+	LogReaderConfig lrc = new LogReaderConfig();
+	
+	@Override
+	public void logged(LogEntry entry) {
+		if (lrc.getFilter().logFilter(entry) == true) {
+			// format the entry
+			String msg = lrc.getFormat().format(entry);
+			displayLogMessage(msg);
+		}
+	}
+
+	/**
+	 * is used to print a filtered and formatted log entry to a specific target
+	 * 
+	 * @param msg
+	 *            the log entry to print
+	 */
+	public abstract void displayLogMessage(String msg);
 }
