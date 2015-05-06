@@ -8,23 +8,7 @@ import org.osgi.service.log.LogEntry;
  * @author jkoch
  *
  */
-public interface LogFilterService {	
-	
-//	public void setLogLevels(byte[] loglevels);
-//	
-//	public byte [] getLogLevels();
-//	
-//	public void setBundleFilters(LinkedList<String> bundleFilters);
-//	
-//	/**
-//	 * saves filter data in the preferences
-//	 */
-//	public void saveFilter();
-//	
-//	/**
-//	 * loads filter data from preferences
-//	 */
-//	public void loadFilter();
+public interface LogFilter {			
 	
 	/**
 	 * Filters a LogEntry object and return true or false if the LogEntry object
@@ -32,6 +16,9 @@ public interface LogFilterService {
 	 * 
 	 * @param entry
 	 *            the LogEntry object which contains the message to log
+	 *            
+	 * @return 'true' if the entry fits the criteria and should be logged.
+	 *         Otherwise 'false'
 	 */
 	public boolean logFilter(LogEntry entry);
 
