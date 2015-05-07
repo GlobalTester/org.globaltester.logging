@@ -13,7 +13,7 @@ import org.osgi.service.log.LogListener;
  */
 public abstract class AbstractLogListener implements LogListener {
 	
-	protected LogListenerConfig lrc = new LogListenerConfigImpl();
+	private LogListenerConfig lrc = new LogListenerConfigImpl();
 	
 	@Override
 	public void logged(LogEntry entry) {
@@ -22,6 +22,14 @@ public abstract class AbstractLogListener implements LogListener {
 			String msg = lrc.getFormat().format(entry);
 			displayLogMessage(msg);
 		}
+	}
+	
+	public LogListenerConfig getLrc() {
+		return lrc;
+	}
+
+	public void setLrc(LogListenerConfig lrc) {
+		this.lrc = lrc;
 	}
 
 	/**
