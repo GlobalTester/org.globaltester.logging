@@ -20,6 +20,7 @@ public class Activator implements BundleActivator {
 	private LinkedList<LogReaderService> readers = new LinkedList<>();
 	private ConsoleLogger consoleLogger = new ConsoleLogger();
 	private ServiceTracker<LogReaderService, LogReaderService> logReaderTracker;
+
 	
 	// This will be used to keep track of listeners as they are un/registering
 	private ServiceListener serviceListener = new ServiceListener() {
@@ -50,7 +51,7 @@ public class Activator implements BundleActivator {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
-		
+        
 		logReaderTracker = new ServiceTracker<>(context, LogReaderService.class.getName(), null);
 		logReaderTracker.open();
 		Object[] readers = logReaderTracker.getServices();
@@ -85,7 +86,6 @@ public class Activator implements BundleActivator {
             iterator.remove();
         }
 		logReaderTracker.close();
-
 	}
 
 }

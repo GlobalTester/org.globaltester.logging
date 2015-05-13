@@ -7,3 +7,4 @@ Bundle-Activator: org.globaltester.logging.filelogger.Activator
 Require-Bundle: org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
+Import-Package: org.globaltester.logging
