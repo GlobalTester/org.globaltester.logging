@@ -14,7 +14,7 @@ import org.globaltester.logging.format.LogFormat;
 public class LogListenerConfigImpl implements LogListenerConfig{
 	
 	public LogFormat format = new LogFormat();
-	public NullFilter filter = new NullFilter();
+	public LogFilter filter = new NullFilter();
 	
 	@Override
 	public LogFilter getFilter() {		
