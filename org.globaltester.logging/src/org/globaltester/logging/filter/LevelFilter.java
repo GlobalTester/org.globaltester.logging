@@ -16,7 +16,7 @@ public class LevelFilter implements LogFilter{
 			.getNode("de.persosim.simulator.ui.utils.logging");
 	
 	// Constructor
-	public LevelFilter(byte[] logLevels) {
+	public LevelFilter(byte... logLevels) {
 		setLogLevels(logLevels);
 //		loadLogLevels();
 	}

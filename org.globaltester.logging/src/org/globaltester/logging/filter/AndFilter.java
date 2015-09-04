@@ -17,7 +17,7 @@ public class AndFilter implements LogFilter{
 
 	private LogFilter [] filters;
 	
-	public AndFilter(LogFilter [] filters) {
+	public AndFilter(LogFilter... filters) {
 		this.filters=filters;
 	}
 

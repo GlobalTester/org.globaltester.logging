@@ -17,7 +17,7 @@ public class OrFilter implements LogFilter {
 
 	private LogFilter[] filters;
 
-	public OrFilter(LogFilter[] filters) {
+	public OrFilter(LogFilter... filters) {
 		this.filters = filters;
 	}
 
