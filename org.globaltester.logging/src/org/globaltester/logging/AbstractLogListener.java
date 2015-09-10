@@ -12,7 +12,7 @@ import org.osgi.service.log.LogListener;
  *
  */
 public abstract class AbstractLogListener implements LogListener {
-	
+	//FIXME SLS why the change from private? There is a setter.
 	protected LogListenerConfig lrc = new LogListenerConfigImpl();
 	
 	@Override
