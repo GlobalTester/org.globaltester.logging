@@ -17,7 +17,7 @@ public class NotFilter implements LogFilter{
 	
 	private LogFilter[] filters;
 
-	public NotFilter(LogFilter[] filters) {
+	public NotFilter(LogFilter... filters) {
 		this.filters = filters;
 	}
 	

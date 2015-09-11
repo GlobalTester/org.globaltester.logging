@@ -8,7 +8,7 @@ public class BundleFilter implements LogFilter {
 
 	private LinkedList<String> bundleFilters = new LinkedList<String>();
 	
-	public BundleFilter(String [] bundleList) {
+	public BundleFilter(String... bundleList) {
 		for(int i=0; i<bundleList.length; i++){
 			addBundle(bundleList[i]);
 		}

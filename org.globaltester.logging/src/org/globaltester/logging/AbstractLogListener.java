@@ -12,7 +12,6 @@ import org.osgi.service.log.LogListener;
  *
  */
 public abstract class AbstractLogListener implements LogListener {
-	
 	private LogListenerConfig lrc = new LogListenerConfigImpl();
 	
 	@Override
