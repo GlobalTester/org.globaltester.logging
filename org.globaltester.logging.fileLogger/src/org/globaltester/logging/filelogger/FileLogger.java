@@ -21,7 +21,8 @@ public class FileLogger extends AbstractLogListener {
 	
 	LogListenerConfigImpl lrc = new LogListenerConfigImpl();
 	DateFormat format = DateFormat.getDateTimeInstance();
-	String logFileName = "logs" + File.separator + "PersoSim_OSGi_" + new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime()) + ".log";
+	String logFileName = "logs" + File.separator + "PersoSim_OSGi_" + new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime()) + ".log";	
+	
 	File file = new File(logFileName);
 	PrintWriter writer;
 	
@@ -32,6 +33,11 @@ public class FileLogger extends AbstractLogListener {
 	public void displayLogMessage(String msg) {
 
 		if (!file.exists()) {
+			File parent = file.getParentFile();
+			if(parent != null) {
+				parent.mkdirs();
+			}
+			
 			try {
 				if (writer != null) {
 					writer.flush();
