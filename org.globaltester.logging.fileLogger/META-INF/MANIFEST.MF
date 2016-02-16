@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: FileLogger
+Bundle-Name: GT FileLogger
 Bundle-SymbolicName: org.globaltester.logging.fileLogger
 Bundle-Version: 0.6.1
 Bundle-Activator: org.globaltester.logging.filelogger.Activator
