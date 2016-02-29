@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: GT ConsoleLogger
 Bundle-SymbolicName: org.globaltester.logging.consoleLogger
-Bundle-Version: 0.6.2
+Bundle-Version: 0.6.3.qualifier
 Bundle-Activator: org.globaltester.logging.consolelogger.Activator
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
