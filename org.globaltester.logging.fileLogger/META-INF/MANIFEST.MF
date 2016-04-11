@@ -6,6 +6,6 @@ Bundle-Version: 0.6.3.qualifier
 Bundle-Activator: org.globaltester.logging.filelogger.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.globaltester.logging
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: HJP Consulting GmbH
