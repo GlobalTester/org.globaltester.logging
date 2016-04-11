@@ -1,6 +1,5 @@
 package org.globaltester.logging.ui.editors;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -119,19 +118,11 @@ public class LogfileScanner extends GtScanner {
 	 *            EnumType of GTRuleBasedPartitionScanner.TokenType that
 	 *            represents the type of token to be added
 	 */
-	public static void addAllPartitionRules(GtScanner scanner,
-			TokenType tokenType) {
-		ArrayList<String> partitionContentTypes = new ArrayList<String>();
-		partitionContentTypes.add(CT_LOG_APDU_COMMAND);
-
-		for (Iterator<String> contentTypesIter = partitionContentTypes
-				.iterator(); contentTypesIter.hasNext();) {
-			String curContentType = contentTypesIter.next();
-			IPredicateRule curRule = getRuleForContentType(curContentType,
-					tokenType, contentTypes);
-			if (curRule != null) {
-				scanner.addPredicateRule(curContentType, curRule);
-			}
+	public static void addAllPartitionRules(GtScanner scanner, TokenType tokenType) {
+		String curContentType = CT_LOG_APDU_COMMAND;
+		IPredicateRule curRule = getRuleForContentType(curContentType, tokenType, contentTypes);
+		if (curRule != null) {
+			scanner.addPredicateRule(curContentType, curRule);
 		}
 	}
 
