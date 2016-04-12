@@ -2,12 +2,12 @@ package org.globaltester.logging;
 
 import org.osgi.service.log.LogService;
 /**
- * This class is used as primary Logger throughout all PersoSim classes.
+ * This class is a Logger with basic functionalities.
  * 
  * @author amay
  * 
  */
-public class PersoSimLogger {
+public class BasicLogger {
 	/*
 	 * Note: This collection of log levels is beyond OSGI platform
 	 * specifications. In case this should ever result in any problems the
@@ -35,7 +35,7 @@ public class PersoSimLogger {
 	/**
 	 * Ensure that this type can not be instantiated
 	 */
-	private PersoSimLogger() {
+	private BasicLogger() {
 	}
 
 	/**
@@ -149,12 +149,6 @@ public class PersoSimLogger {
 	 *            log level on which the message is shown
 	 */
 	private static void log(String source, String message, byte logLevel) {
-		/*
-		 * Shorten the source. the bundle name is already included because the
-		 * formatter adds it. Therefore only the class and package names are
-		 * interesting.
-		 */
-		source=source.replaceFirst("de.persosim.simulator.", "d.p.s.");
 		logPlain(String.format("%s: %s", source, message), logLevel);
 	}
 	

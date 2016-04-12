@@ -17,7 +17,6 @@ public class LogFormat implements LogFormatService{
 	public String format(LogEntry entry) {
 		String strEntry = "["
 				+ getLogLvlName(entry.getLevel()) + " - "
-				+ entry.getBundle().getSymbolicName()+" - "
 				+ format.format(new Date(entry.getTime())) + "] "
 				+ entry.getMessage();
 		return strEntry;
