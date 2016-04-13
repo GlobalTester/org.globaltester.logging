@@ -11,7 +11,7 @@ import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.Region;
 import org.globaltester.base.util.StringUtil;
-import org.globaltester.logging.logger.GtErrorLogger;
+import org.globaltester.logging.legacy.logger.GtErrorLogger;
 import org.globaltester.logging.ui.Activator;
 
 public class ApduCommandTextHover implements ITextHover {
