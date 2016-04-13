@@ -32,8 +32,11 @@ public class TestLogScanner extends GtScanner {
 
 	// init supported content types
 	static {
+		
+		EnumMap<TokenType, Object> eMap;
+		
 		// add required data for content type TESTLOG_EXECUTION
-		EnumMap<TokenType, Object> eMap = new EnumMap<TokenType, Object>(
+		eMap = new EnumMap<TokenType, Object>(
 				TokenType.class);
 		eMap.put(TokenType.CONTENT_TYPE, TestlogExecutionPartitionRule.class);
 		eMap.put(TokenType.TEXT_ATTRIBUTES,
@@ -50,24 +53,6 @@ public class TestLogScanner extends GtScanner {
 						ColorConstants.TEST_EXECUTION), null, SWT.BOLD));
 		contentTypes.put(CT_TESTLOG_EXECUTION_COLOR, eMap);
 		
-		// add required data for content type TESTLOG_EXECUTION_PART
-		eMap = new EnumMap<TokenType, Object>(
-				TokenType.class);
-		eMap.put(TokenType.CONTENT_TYPE, TestlogExecutionPartRule.class);
-		eMap.put(TokenType.TEXT_ATTRIBUTES,
-				new TextAttribute(new Color(Display.getCurrent(),
-						ColorConstants.TEST_EXECUTION_PART), null, SWT.NULL));
-		contentTypes.put(CT_TESTLOG_EXECUTION_PART, eMap);
-		
-		// add required data for content type TESTLOG_METADATA
-		eMap = new EnumMap<TokenType, Object>(
-				TokenType.class);
-		eMap.put(TokenType.CONTENT_TYPE, TestlogMetaDataRule.class);
-		eMap.put(TokenType.TEXT_ATTRIBUTES,
-				new TextAttribute(new Color(Display.getCurrent(),
-						ColorConstants.TEST_METADATA), null, SWT.BOLD));
-		contentTypes.put(CT_TESTLOG_METADATA, eMap);
-
 	}
 
 	public TestLogScanner(TokenType tokenType) {
@@ -78,7 +63,8 @@ public class TestLogScanner extends GtScanner {
 	public String[] getSupportedContentTypes() {
 		return contentTypes.keySet().toArray(new String[0]);
 	}
-
+	
+	public static int addAllCounter = 0;
 	/**
 	 * Adds all JS related predicate rules to the given scanner
 	 * 
@@ -88,8 +74,9 @@ public class TestLogScanner extends GtScanner {
 	 *            EnumType of GTRuleBasedPartitionScanner.TokenType that
 	 *            represents the type of token to be added
 	 */
-	public static void addAllPredicateRules(GtScanner scanner,
-			TokenType tokenType) {
+	public static void addAllPredicateRules(GtScanner scanner, TokenType tokenType) {
+		addAllCounter++;
+		
 		for (Iterator<String> contentTypesIter = contentTypes.keySet()
 				.iterator(); contentTypesIter.hasNext();) {
 			String curContentType = contentTypesIter.next();
@@ -103,6 +90,8 @@ public class TestLogScanner extends GtScanner {
 				scanner.addPredicateRule(curContentType, curRule);
 			}
 		}
+		
+		System.out.println("DEBUG: addAllCounter is: " + addAllCounter);
 	}
 
 	/**
