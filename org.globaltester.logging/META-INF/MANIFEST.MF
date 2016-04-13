@@ -14,3 +14,5 @@ Export-Package: org.globaltester.logging,
  org.globaltester.logging.filter,
  org.globaltester.logging.format
 Bundle-Vendor: HJP Consulting GmbH
+Require-Bundle: org.eclipse.osgi
+Bundle-Activator: org.globaltester.logging.Activator
