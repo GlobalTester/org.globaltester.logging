@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: GT Logging UI
+Bundle-SymbolicName: org.globaltester.logging.configui;singleton:=true
+Bundle-Version: 3.0.5.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: HJP Consulting GmbH
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.swt,
+ org.globaltester.logging
+Export-Package: org.globaltester.logging.configui
