@@ -16,7 +16,7 @@ public class TestlogMetaDataRule extends OrRule {
 		super(token);
 		
 		this.addRule(new EndOfLineRule("- Testcase ", token));
-		this.addRule(new EndOfLineRule("------------------------------------------------------------------", token));
+		this.addRule(new EndOfLineRule("- ------------------------------------------------------------------", token));
 		
 	}
 

@@ -46,21 +46,16 @@ public class LogfileTimeStampRule implements IRule, IPredicateRule{
 					if (!Character.isDigit(curChar)){
 						break;
 					}
-				} else{
-					if((charCounter == 5) || (charCounter == 8)) {
-						if(Character.compare(curChar, '-') != 0) {
-							break;
-						}
-					} else{
-						if(charCounter <= 10) {
-							if (!Character.isDigit(curChar)){
-								break;
-							}
-						}
+				} else if((charCounter == 5) || (charCounter == 8)) {
+					if(Character.compare(curChar, '-') != 0) {
+						break;
 					}
-				}
-				
-				if(charCounter == 23) {
+				} else if(charCounter <= 10) {
+					if (!Character.isDigit(curChar)){
+						break;
+					}
+				} else if(charCounter == 23) {
+					//potential timestamp found
 					try {
 						parserSDF.parse(sb.toString());
 						return token;

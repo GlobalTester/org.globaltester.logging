@@ -41,17 +41,14 @@ public class LogfileFailureRule implements IRule, IPredicateRule{
 					if(Character.compare(curChar, '@') != 0) {
 						break;
 					}
-				} else{
-					if(charCounter <= 10) {
-						if (!Character.isLetter(curChar)){
-							break;
-						}
-					} else{
-						if (!Character.isDigit(curChar)){
-							scanner.unread();
-							return token;
-						}
+				} else if(charCounter <= 10) {
+					if (!Character.isLetter(curChar)){
+						break;
 					}
+				} else if (!Character.isDigit(curChar)){
+					//failureid found
+					scanner.unread();
+					return token;
 				}
 				
 			} while (!(curCharInt == '\n' || curCharInt == '\r' || curCharInt == ICharacterScanner.EOF));
