@@ -1,9 +1,9 @@
 package org.globaltester.logging.ui.editors;
 
+import org.eclipse.jface.text.rules.EndOfLineRule;
 import org.eclipse.jface.text.rules.IToken;
-import org.globaltester.base.ui.editors.OrRule;
-import org.globaltester.base.ui.editors.RegexRule;
 import org.globaltester.base.ui.editors.GtScanner.TokenType;
+import org.globaltester.base.ui.editors.OrRule;
 
 public class TestlogMetaDataRule extends OrRule {
 
@@ -14,9 +14,9 @@ public class TestlogMetaDataRule extends OrRule {
 
 	public TestlogMetaDataRule(IToken token) {
 		super(token);
-
-		this.addRule(new RegexRule("- Testcase .{57,} -", token));
-		this.addRule(new RegexRule("- -{64,} -", token));
+		
+		this.addRule(new EndOfLineRule("- Testcase ", token));
+		this.addRule(new EndOfLineRule("------------------------------------------------------------------", token));
 		
 	}
 

@@ -19,7 +19,7 @@ import org.globaltester.base.ui.editors.GtScanner;
 import org.globaltester.base.ui.editors.ReconcilingStrategy;
 import org.globaltester.base.ui.editors.GtScanner.TokenType;
 
-//TODO investigate options to remove this SuppresWarnings
+//TODO investigate options to remove this SuppressWarnings
 @SuppressWarnings("restriction")
 public class GtLogfileViewerConfiguration extends TextSourceViewerConfiguration {
 	private GtScanner logScanner;

@@ -24,8 +24,8 @@ public class GtLogfileDocumentProvider extends TextFileDocumentProvider {
 			IDocumentPartitioner partitioner =
 				new FastPartitioner(
 					pScanner, pScanner.getLegalContentTypes());
-			partitioner.connect(document);
 			document.setDocumentPartitioner(partitioner);
+			partitioner.connect(document);
 		}
 		return document;
 	}

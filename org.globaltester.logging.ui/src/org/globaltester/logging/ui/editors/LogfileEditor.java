@@ -9,6 +9,13 @@ public class LogfileEditor extends FoldingEditor {
 	public LogfileEditor() {
 		super();
 		setDocumentProvider(new GtLogfileDocumentProvider());
+		
+	}
+	
+	@Override
+	protected void initializeEditor() {
+		super.initializeEditor();
 		setSourceViewerConfiguration(new GtLogfileViewerConfiguration(this));
 	}
+	
 }
