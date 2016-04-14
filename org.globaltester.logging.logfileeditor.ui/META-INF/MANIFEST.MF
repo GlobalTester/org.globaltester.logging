@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: GT Logging UI
+Bundle-SymbolicName: org.globaltester.logging.logfileeditor.ui;singleton:=true
+Bundle-Version: 3.0.5.qualifier
+Bundle-Activator: org.globaltester.logging.logfileeditor.ui.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: HJP Consulting GmbH
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.jface.text,
+ org.eclipse.swt,
+ org.eclipse.osgi,
+ org.eclipse.ui,
+ org.eclipse.ui.editors,
+ org.globaltester.base,
+ org.globaltester.base.ui,
+ org.globaltester.logging.legacy
+Export-Package: org.globaltester.logging.logfileeditor.ui.editors

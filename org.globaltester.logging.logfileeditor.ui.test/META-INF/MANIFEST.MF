@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: GT Logging UI Test
+Bundle-SymbolicName: org.globaltester.logging.logfileeditor.ui.test
+Bundle-Version: 3.0.5.qualifier
+Bundle-Vendor: HJP Consulting GmbH
+Fragment-Host: org.globaltester.logging.logfileeditor.ui
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.junit
