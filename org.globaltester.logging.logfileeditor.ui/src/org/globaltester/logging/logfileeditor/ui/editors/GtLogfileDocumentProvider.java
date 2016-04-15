@@ -19,7 +19,7 @@ public class GtLogfileDocumentProvider extends TextFileDocumentProvider {
 	@Override
 	public IDocument getDocument(Object element) {
 		IDocument document = super.getDocument(element);
-		if (document != null) {
+		if (document != null && document.getDocumentPartitioner() == null) {
 			GtScanner pScanner = getPartitionScanner();
 			IDocumentPartitioner partitioner =
 				new FastPartitioner(
