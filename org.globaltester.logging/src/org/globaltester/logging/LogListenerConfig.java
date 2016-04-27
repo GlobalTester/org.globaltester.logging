@@ -5,7 +5,7 @@ import org.globaltester.logging.format.LogFormat;
 
 /**
  * This class is used to configure the filtering and formatting of log messages
- *  
+ * 
  * @author jkoch
  *
  */

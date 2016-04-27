@@ -17,12 +17,12 @@ public class LogListenerConfigImpl implements LogListenerConfig{
 	public LogFilter filter = new NullFilter();
 	
 	@Override
-	public LogFilter getFilter() {		
+	public LogFilter getFilter() {
 		return filter;
 	}
 	
 	@Override
-	public LogFormat getFormat() {		
+	public LogFormat getFormat() {
 		return format;
 	}
 }
