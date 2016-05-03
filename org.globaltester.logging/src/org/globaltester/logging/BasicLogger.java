@@ -1,5 +1,6 @@
 package org.globaltester.logging;
 
+import org.globaltester.logging.tags.LogTag;
 import org.osgi.service.log.LogService;
 /**
  * This class is a Logger with basic functionalities.
@@ -30,12 +31,24 @@ public class BasicLogger {
 	
 	private static final byte LOGLEVEL_DFLT = DEBUG;
 	
+	private static MessageEncoder messageEncoder;
+	
 	
 	
 	/**
 	 * Ensure that this type can not be instantiated
 	 */
 	private BasicLogger() {
+	}
+	
+	public static void log(String messageContent, LogTag... logTags) {
+		if(messageEncoder == null) {
+			messageEncoder = new MessageEncoderJson();
+		}
+		
+		Message newMessage = new Message(messageContent, logTags);
+		String encodedMessage = messageEncoder.encode(newMessage);
+		logPlain(encodedMessage, INFO);
 	}
 
 	/**
@@ -215,6 +228,10 @@ public class BasicLogger {
 	 *            log level on which the message is shown
 	 */
 	public static void logPlain(String message, byte logLevel) {
+		if(messageEncoder == null) {
+			messageEncoder = new MessageEncoderJson();
+		}
+		
 		LogService logService = Activator.getLogservice();
 		if (logService != null){
 			logService.log(logLevel, message);
