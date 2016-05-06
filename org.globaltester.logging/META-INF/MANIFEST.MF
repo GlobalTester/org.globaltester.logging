@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: GT Logging
 Bundle-SymbolicName: org.globaltester.logging
-Bundle-Version: 0.6.3.qualifier
+Bundle-Version: 0.7.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.eclipse.core.runtime.preferences;version="3.3.0",
  org.eclipse.equinox.log;version="1.0.0",
