@@ -1,5 +1,42 @@
-Version 0.6.3 (29.02.2016)
+Version 0.7.0 (06.05.2016)
 
+* Add new partitioner only if document does not have one.
+* Merge branch 'usr/cstroh/logLevelDialog'
+* Move logfileeditor into its own bundle
+* Extracted content of LogLevelDialog to be an independent widget
+* Add missing rules for logfile scanner
+* Small review fixes
+* Merge branch 'usr/slutters/logFileEditorPerformance'
+* removed rules with bad performance
+* improved performance of rule
+* improved performance of rule
+* improved performance of rule
+* Resolves name clash of legacy logging packages
+* Merge branch 'usr/cstroh/extractPersoSimLogger'
+* Refactored PersoSimLogger to BasicLogger
+* PersoSimLogger moved from d.p.s to o.g.logging
+* Merge remote-tracking branch 'origin/usr/mboonk/qaSprint15'
+* fixed typo
+* simplified code
+* Set all build relevant settings to Java 1.8
+* changed order of setDocumentPartitioner and connect
+* mvd setting of SourceViewerConfiguration from constructor to initialize
+* Merge branch 'usr/cstroh/opensourcingPlatform'
+* Adapt README.md content
+* Add LICENSE and NOTICE to build.properties
+* Add LICENSE and NOTICE files for our code
+* Add LICENSE and NOTICE files to gitattributes
+* Merge remote-tracking branch 'origin/usr/cstroh/logFileEditor'
+* Move o.g.logging.legacy.ui to o.g.logging.ui
+* Merge branch 'usr/amay/releaseBuild'
+* Update version numbers in POM
+* Remove anmespaces from POMs
+* Update version numbers
+* update parent pom version
+* Updated the changelog
+* Merge remote-tracking branch 'origin/usr/cstroh/fixGitAttributes'
+* Replace gitattributes by file from o.g.dev
+* Fixed line endings
 * Code maintenance
 
 
