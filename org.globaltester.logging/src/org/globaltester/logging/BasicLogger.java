@@ -1,6 +1,8 @@
 package org.globaltester.logging;
 
 import org.globaltester.logging.tags.LogTag;
+import org.globaltester.logging.tags.OriginTag;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.log.LogService;
 /**
  * This class is a Logger with basic functionalities.
@@ -47,10 +49,29 @@ public class BasicLogger {
 		}
 		
 		Message newMessage = new Message(messageContent, logTags);
+		newMessage.addLogTag(new OriginTag(getFirstExternalClass()));
 		String encodedMessage = messageEncoder.encode(newMessage);
-		logPlain(encodedMessage, INFO);
+		logPlain(encodedMessage, org.osgi.service.log.LogService.LOG_INFO);
 	}
 
+	private static String getFirstExternalClass(){
+		StackTraceElement [] stack = Thread.currentThread().getStackTrace();
+		
+		for (StackTraceElement e : stack){
+			Class<?> classFromStackTraceElement;
+			try {
+				classFromStackTraceElement = Activator.getContext().getBundle().loadClass(e.getClassName());
+			} catch (ClassNotFoundException e1) {
+				return e.getClassName();
+			}
+			
+			if (!FrameworkUtil.getBundle(classFromStackTraceElement).equals(Activator.getContext().getBundle())){
+				return e.getClassName();
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * Write message to the log, including origin of that message.
 	 * 
@@ -227,7 +248,7 @@ public class BasicLogger {
 	 * @param logLevel
 	 *            log level on which the message is shown
 	 */
-	public static void logPlain(String message, byte logLevel) {
+	public static void logPlain(String message, int logLevel) {
 		if(messageEncoder == null) {
 			messageEncoder = new MessageEncoderJson();
 		}
