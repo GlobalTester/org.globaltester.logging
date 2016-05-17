@@ -18,7 +18,7 @@ public class Message {
 	}
 	
 	public Message(String messageContent, List<LogTag> messageTags) {
-		this(messageContent, messageTags.toArray(new LogTag[0]));
+		this(messageContent, messageTags.toArray(new LogTag[messageTags.size()]));
 	}
 	
 	
