@@ -45,7 +45,7 @@ public class BasicLogger {
 	
 	public static void log(String messageContent, LogTag... logTags) {
 		if(messageEncoder == null) {
-			messageEncoder = new MessageEncoderJson();
+			messageEncoder = new MessageCoderJson();
 		}
 		
 		Message newMessage = new Message(messageContent, logTags);
@@ -255,7 +255,7 @@ public class BasicLogger {
 	 */
 	public static void logPlain(String message, int logLevel) {
 		if(messageEncoder == null) {
-			messageEncoder = new MessageEncoderJson();
+			messageEncoder = new MessageCoderJson();
 		}
 		
 		LogService logService = Activator.getLogservice();

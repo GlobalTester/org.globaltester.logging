@@ -9,22 +9,27 @@ import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 
 
 
-public class MessageEncoderJson implements MessageEncoder {
+public class MessageCoderJson implements MessageEncoder, MessageDecoder {
 	
 	private XStream xstream;
 	
-	public MessageEncoderJson() {
+	public MessageCoderJson() {
 		HierarchicalStreamDriver hsd = new JsonHierarchicalStreamDriver();
 		
 		xstream = XstreamFactory.get(hsd);
 		
-		((CompositeClassLoader) xstream.getClassLoader()).add(MessageEncoderJson.class.getClassLoader());
+		((CompositeClassLoader) xstream.getClassLoader()).add(MessageCoderJson.class.getClassLoader());
 		((CompositeClassLoader) xstream.getClassLoader()).add(XstreamFactory.class.getClassLoader());
 	}
 	
 	@Override
 	public String encode(Message messageObject) {
 		return xstream.toXML(messageObject);
+	}
+
+	@Override
+	public Message decode(String messageRep) {
+		return (Message) xstream.fromXML(messageRep);
 	}
 
 }
