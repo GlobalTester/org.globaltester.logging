@@ -59,13 +59,18 @@ public class BasicLogger {
 		
 		for (StackTraceElement e : stack){
 			Class<?> classFromStackTraceElement;
+			
 			try {
 				classFromStackTraceElement = Activator.getContext().getBundle().loadClass(e.getClassName());
 			} catch (ClassNotFoundException e1) {
 				return e.getClassName();
 			}
 			
-			if (!FrameworkUtil.getBundle(classFromStackTraceElement).equals(Activator.getContext().getBundle())){
+			if (classFromStackTraceElement.getCanonicalName().startsWith("java.")){
+				continue;
+			}
+			
+			if (!Activator.getContext().getBundle().equals(FrameworkUtil.getBundle(classFromStackTraceElement))){
 				return e.getClassName();
 			}
 		}
