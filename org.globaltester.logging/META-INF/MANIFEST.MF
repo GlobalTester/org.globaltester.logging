@@ -12,7 +12,8 @@ Import-Package: org.eclipse.core.runtime.preferences;version="3.3.0",
 Bundle-ActivationPolicy: lazy
 Export-Package: org.globaltester.logging,
  org.globaltester.logging.filter,
- org.globaltester.logging.format
+ org.globaltester.logging.format,
+ org.globaltester.logging.tags
 Bundle-Vendor: HJP Consulting GmbH
 Require-Bundle: org.eclipse.osgi,
  org.globaltester.lib.xstream
