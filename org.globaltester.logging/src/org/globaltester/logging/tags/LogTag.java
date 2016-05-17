@@ -1,26 +1,14 @@
 package org.globaltester.logging.tags;
 
-/**
- * 
- * LogTag objects MUST be immutable !!!
- * 
- * @author slutters
- *
- */
-public abstract class LogTag {
-	
-	private LogLevel logLevel;
-	private String id;
-	
-	public LogTag(String id, LogLevel logLevel) {
+public class LogTag {
+
+	protected String id;
+
+	public LogTag(String id) {
+		super();
 		this.id = id;
-		this.logLevel = logLevel;
 	}
-	
-	public LogLevel getLogLevel() {
-		return logLevel;
-	}
-	
+
 	public String getId() {
 		return id;
 	}
