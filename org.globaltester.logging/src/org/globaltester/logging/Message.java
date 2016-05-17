@@ -32,5 +32,36 @@ public class Message {
 			messageTags.add(logTag);
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((messageContent == null) ? 0 : messageContent.hashCode());
+		result = prime * result + ((messageTags == null) ? 0 : messageTags.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Message other = (Message) obj;
+		if (messageContent == null) {
+			if (other.messageContent != null)
+				return false;
+		} else if (!messageContent.equals(other.messageContent))
+			return false;
+		if (messageTags == null) {
+			if (other.messageTags != null)
+				return false;
+		} else if (!messageTags.equals(other.messageTags))
+			return false;
+		return true;
+	}
 	
 }
