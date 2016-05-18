@@ -1,7 +1,6 @@
 package org.globaltester.logging;
 
 import org.globaltester.logging.tags.LogTag;
-import org.globaltester.logging.tags.OriginTag;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.log.LogService;
 /**
@@ -31,6 +30,8 @@ public class BasicLogger {
 	public static final String PREFIX_OUT_DEC = "<outdec>";
 	public static final String PREFIX_OUT     = "<out>";
 	
+	public static final String ORIGIN_TAG_ID = "Originating class";
+	
 	private static final byte LOGLEVEL_DFLT = DEBUG;
 	
 	private static MessageEncoder messageEncoder;
@@ -49,7 +50,7 @@ public class BasicLogger {
 		}
 		
 		Message newMessage = new Message(messageContent, logTags);
-		newMessage.addLogTag(new OriginTag(getOriginClass()));
+		newMessage.addLogTag(new LogTag(ORIGIN_TAG_ID, getOriginClass()));
 		String encodedMessage = messageEncoder.encode(newMessage);
 		logPlain(encodedMessage, org.osgi.service.log.LogService.LOG_INFO);
 	}
