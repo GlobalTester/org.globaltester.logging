@@ -8,7 +8,8 @@ import org.globaltester.logging.tags.LogTag;
 public class Message {
 	
 	protected String messageContent;
-	protected ArrayList<LogTag> messageTags;
+
+	protected List<LogTag> messageTags;
 	
 	public Message(String messageContent, LogTag... logTags) {
 		this.messageContent = messageContent;
@@ -21,10 +22,16 @@ public class Message {
 		this(messageContent, messageTags.toArray(new LogTag[messageTags.size()]));
 	}
 	
-	
-	
 	public Message(String messageContent) {
 		this(messageContent, new LogTag[0]);
+	}
+	
+	public String getMessageContent() {
+		return messageContent;
+	}
+	
+	public List<LogTag> getLogTags(){
+		return new ArrayList<LogTag>(messageTags);
 	}
 	
 	public void addLogTag(LogTag... logTags) {

@@ -3,6 +3,7 @@ package org.globaltester.logging;
 import org.globaltester.logging.filter.LogFilter;
 import org.globaltester.logging.filter.NullFilter;
 import org.globaltester.logging.format.LogFormat;
+import org.globaltester.logging.format.LogFormatService;
 
 /**
  * This implementation of LogListenerConfig provides a format object and a
@@ -22,7 +23,7 @@ public class LogListenerConfigImpl implements LogListenerConfig{
 	}
 	
 	@Override
-	public LogFormat getFormat() {
+	public LogFormatService getFormat() {
 		return format;
 	}
 }

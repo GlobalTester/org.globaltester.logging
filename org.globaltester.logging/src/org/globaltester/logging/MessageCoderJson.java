@@ -9,26 +9,29 @@ import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 
 
 
-public class MessageCoderJson implements MessageEncoder, MessageDecoder {
+public class MessageCoderJson {
 	
-	private XStream xstream;
+	private static XStream xstream;
 	
-	public MessageCoderJson() {
+	static {
 		HierarchicalStreamDriver hsd = new JettisonMappedXmlDriver();
 		
 		xstream = XstreamFactory.get(hsd);
-		
+
 		((CompositeClassLoader) xstream.getClassLoader()).add(XstreamFactory.class.getClassLoader());
+		((CompositeClassLoader) xstream.getClassLoader()).add(Activator.class.getClassLoader());
 	}
 	
-	@Override
-	public String encode(Message messageObject) {
+	public static String encode(Message messageObject) {
 		return xstream.toXML(messageObject);
 	}
 
-	@Override
-	public Message decode(String messageRep) {
-		return (Message) xstream.fromXML(messageRep);
+	public static Message decode(String messageRep) {
+		try {
+			return (Message) xstream.fromXML(messageRep);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 }

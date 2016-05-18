@@ -24,17 +24,9 @@ public class BasicLogger {
 	public static final byte FATAL =   6;
 	public static final byte UI    = 120;
 	
-	public static final byte APDU  =  99;
-	public static final String PREFIX_IN      = "<in>";
-	public static final String PREFIX_IN_DEC  = "<indec>";
-	public static final String PREFIX_OUT_DEC = "<outdec>";
-	public static final String PREFIX_OUT     = "<out>";
-	
 	public static final String ORIGIN_TAG_ID = "Originating class";
 	
 	private static final byte LOGLEVEL_DFLT = DEBUG;
-	
-	private static MessageEncoder messageEncoder;
 	
 	
 	
@@ -45,13 +37,9 @@ public class BasicLogger {
 	}
 	
 	public static void log(String messageContent, LogTag... logTags) {
-		if(messageEncoder == null) {
-			messageEncoder = new MessageCoderJson();
-		}
-		
 		Message newMessage = new Message(messageContent, logTags);
 		newMessage.addLogTag(new LogTag(ORIGIN_TAG_ID, getOriginClass()));
-		String encodedMessage = messageEncoder.encode(newMessage);
+		String encodedMessage = MessageCoderJson.encode(newMessage);
 		logPlain(encodedMessage, org.osgi.service.log.LogService.LOG_INFO);
 	}
 
@@ -260,11 +248,7 @@ public class BasicLogger {
 	 * @param logLevel
 	 *            log level on which the message is shown
 	 */
-	public static void logPlain(String message, int logLevel) {
-		if(messageEncoder == null) {
-			messageEncoder = new MessageCoderJson();
-		}
-		
+	public static void logPlain(String message, int logLevel) {		
 		LogService logService = Activator.getLogservice();
 		if (logService != null){
 			logService.log(logLevel, message);
