@@ -49,14 +49,20 @@ public class BasicLogger {
 		}
 		
 		Message newMessage = new Message(messageContent, logTags);
-		newMessage.addLogTag(new OriginTag(getFirstExternalClass()));
+		newMessage.addLogTag(new OriginTag(getOriginClass()));
 		String encodedMessage = messageEncoder.encode(newMessage);
 		logPlain(encodedMessage, org.osgi.service.log.LogService.LOG_INFO);
 	}
 
-	private static String getFirstExternalClass(){
+	/**
+	 * Find the first external class where the call to the logging methods
+	 * occured or return the calling class to this method if no external
+	 * could be found.
+	 * 
+	 * @return the originating class name
+	 */
+	private static String getOriginClass(){
 		StackTraceElement [] stack = Thread.currentThread().getStackTrace();
-		
 		for (StackTraceElement e : stack){
 			Class<?> classFromStackTraceElement;
 			
@@ -74,7 +80,7 @@ public class BasicLogger {
 				return e.getClassName();
 			}
 		}
-		return null;
+		return stack[1].getClassName();
 	}
 	
 	/**
