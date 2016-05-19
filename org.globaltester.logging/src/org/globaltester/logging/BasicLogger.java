@@ -56,7 +56,7 @@ public class BasicLogger {
 			Class<?> classFromStackTraceElement;
 			
 			try {
-				classFromStackTraceElement = Activator.getContext().getBundle().loadClass(e.getClassName());
+				classFromStackTraceElement = Activator.class.getClassLoader().loadClass(e.getClassName());
 			} catch (ClassNotFoundException e1) {
 				return e.getClassName();
 			}
@@ -65,7 +65,7 @@ public class BasicLogger {
 				continue;
 			}
 			
-			if (!Activator.getContext().getBundle().equals(FrameworkUtil.getBundle(classFromStackTraceElement))){
+			if (Activator.getContext() == null || !Activator.getContext().getBundle().equals(FrameworkUtil.getBundle(classFromStackTraceElement))){
 				return e.getClassName();
 			}
 		}
