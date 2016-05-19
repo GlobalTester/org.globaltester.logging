@@ -8,7 +8,7 @@ import org.osgi.service.log.LogEntry;
  * @author jkoch
  *
  */
-public interface LogFilter {			
+public interface LogFilter {
 	
 	/**
 	 * Filters a LogEntry object and return true or false if the LogEntry object

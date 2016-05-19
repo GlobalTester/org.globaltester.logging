@@ -3,7 +3,7 @@ package org.globaltester.logging.filter;
 import org.osgi.service.log.LogEntry;
 
 /**
- * Filtering evaluates as logical NOT of the results of all containes filters.
+ * Filtering evaluates as logical NOT of the results of all contained filters.
  * 
  * During evaluation of the filter result all filters are evaluated regardless
  * of the intermediate result (no shortcut evaluation). This ensures that all

@@ -1,11 +1,11 @@
 package org.globaltester.logging;
 
 import org.globaltester.logging.filter.LogFilter;
-import org.globaltester.logging.format.LogFormat;
+import org.globaltester.logging.format.LogFormatService;
 
 /**
  * This class is used to configure the filtering and formatting of log messages
- *  
+ * 
  * @author jkoch
  *
  */
@@ -23,5 +23,5 @@ public interface LogListenerConfig {
 	 * 
 	 * @return the LogFormat object
 	 */
-	public LogFormat getFormat();
+	public LogFormatService getFormat();
 }
