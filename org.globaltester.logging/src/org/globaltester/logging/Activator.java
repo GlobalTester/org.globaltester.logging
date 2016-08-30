@@ -9,7 +9,7 @@ public class Activator implements BundleActivator {
 
 	public static BundleContext context;
 	
-	//TODO move this service tracking to the class BasicLogger (similar to Crypto)
+	//IMPL move this service tracking to the class BasicLogger (similar to Crypto)
 	private static ServiceTracker<LogService, LogService> logServiceTracker;
 	
 	public static LogService getLogservice() {
