@@ -14,7 +14,7 @@ Export-Package: org.globaltester.logging,
  org.globaltester.logging.filter,
  org.globaltester.logging.format,
  org.globaltester.logging.tags
-Bundle-Vendor: HJP Consulting GmbH
+Bundle-Vendor: secunet Security Networks AG
 Require-Bundle: org.eclipse.osgi,
  org.globaltester.lib.xstream
 Bundle-Activator: org.globaltester.logging.Activator

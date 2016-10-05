@@ -11,4 +11,4 @@ Import-Package: org.osgi.framework,
  org.osgi.util.tracker;version="1.5.1"
 Require-Bundle: org.eclipse.osgi,
  org.globaltester.logging
-Bundle-Vendor: HJP Consulting GmbH
+Bundle-Vendor: secunet Security Networks AG
