@@ -1,5 +1,6 @@
 package org.globaltester.logging;
 
+import org.globaltester.logging.tags.LogLevel;
 import org.globaltester.logging.tags.LogTag;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.log.LogService;
@@ -10,25 +11,24 @@ import org.osgi.service.log.LogService;
  * 
  */
 public class BasicLogger {
-	/*
-	 * Note: This collection of log levels is beyond OSGI platform
-	 * specifications. In case this should ever result in any problems the
-	 * implementation of a proper alternative should be possible without any
-	 * problems.
-	 */
-	public static final byte TRACE =   1;
-	public static final byte DEBUG =   2;
-	public static final byte INFO  =   3;
-	public static final byte WARN  =   4;
-	public static final byte ERROR =   5;
-	public static final byte FATAL =   6;
-	public static final byte UI    = 120;
+
+	public static final String ORIGIN_CLASS_TAG_ID = "Originating class";
+	public static final String SOURCE_TAG_ID = "Source";
+	public static final String EXCEPTION_STACK_TAG_ID = "Exception stack trace";
+	public static final String ORIGIN_THREAD_TAG_ID = "Originating thread";
+	public static final String LOG_LEVEL_TAG_ID = "Originating thread";
+	public static final String UI_TAG_ID = "User interface message";
 	
-	public static final String ORIGIN_TAG_ID = "Originating class";
+	private static final LogLevel LOGLEVEL_DFLT = LogLevel.DEBUG;
+
 	
-	private static final byte LOGLEVEL_DFLT = DEBUG;
-	
-	
+	//XXX should be removed in favor of direct access to LogLevel
+	public static final LogLevel TRACE = LogLevel.TRACE;
+	public static final LogLevel DEBUG = LogLevel.DEBUG;
+	public static final LogLevel INFO = LogLevel.INFO;
+	public static final LogLevel WARN = LogLevel.WARN;
+	public static final LogLevel ERROR = LogLevel.ERROR;
+	public static final LogLevel FATAL = LogLevel.FATAL;
 	
 	/**
 	 * Ensure that this type can not be instantiated
@@ -36,11 +36,34 @@ public class BasicLogger {
 	private BasicLogger() {
 	}
 	
-	public static void log(String messageContent, LogTag... logTags) {
+	public static void log(String messageContent, LogLevel level , LogTag... logTags) {
 		Message newMessage = new Message(messageContent, logTags);
-		newMessage.addLogTag(new LogTag(ORIGIN_TAG_ID, getOriginClass()));
+		newMessage.addLogTag(new LogTag(ORIGIN_CLASS_TAG_ID, getOriginClass()));
+		newMessage.addLogTag(new LogTag(ORIGIN_THREAD_TAG_ID, Long.toString(Thread.currentThread().getId())));
+		newMessage.addLogTag(new LogTag(LOG_LEVEL_TAG_ID, level.name()));
 		String encodedMessage = MessageCoderJson.encode(newMessage);
-		logPlain(encodedMessage, org.osgi.service.log.LogService.LOG_INFO);
+		
+		int logLevelForOsgi = 0;
+		
+		switch (level){
+		case WARN:
+			logLevelForOsgi = org.osgi.service.log.LogService.LOG_WARNING;
+			break;
+		case DEBUG:
+			logLevelForOsgi = org.osgi.service.log.LogService.LOG_DEBUG;
+			break;
+		case FATAL:
+		case ERROR:
+			logLevelForOsgi = org.osgi.service.log.LogService.LOG_ERROR;
+			break;
+		case TRACE:
+		case INFO:
+		default:
+			logLevelForOsgi = org.osgi.service.log.LogService.LOG_INFO;
+			break;
+		}
+		
+		logPlain(encodedMessage, logLevelForOsgi);
 	}
 
 	/**
@@ -96,7 +119,7 @@ public class BasicLogger {
 	 * @param logLevel
 	 *            log level on which the message is shown
 	 */
-	public static void log(InfoSource source, String message, byte logLevel) {
+	public static void log(InfoSource source, String message, LogLevel logLevel) {
 		log(source.getIDString(), message, logLevel);
 	}
 	
@@ -110,7 +133,7 @@ public class BasicLogger {
 	 * @param logLevel
 	 *            log level on which the message is shown
 	 */
-	public static void log(Class<?> className, String message, byte logLevel) {
+	public static void log(Class<?> className, String message, LogLevel logLevel) {
 		log(className.getCanonicalName(), message, logLevel);
 	}
 	
@@ -154,7 +177,7 @@ public class BasicLogger {
 	 * @param logLevel
 	 *            log level on which the exception is shown
 	 */
-	public static void logException(InfoSource source, Exception e, byte logLevel) {
+	public static void logException(InfoSource source, Exception e, LogLevel logLevel) {
 		logException(source.getIDString(), e, logLevel);
 	}
 	
@@ -168,7 +191,7 @@ public class BasicLogger {
 	 * @param logLevel
 	 *            log level on which the exception is shown
 	 */
-	public static void logException(Class<?> className, Exception e, byte logLevel) {
+	public static void logException(Class<?> className, Exception e, LogLevel logLevel) {
 		logException(className.getCanonicalName(), e, logLevel);
 	}
 	
@@ -182,8 +205,8 @@ public class BasicLogger {
 	 * @param logLevel
 	 *            log level on which the message is shown
 	 */
-	private static void log(String source, String message, byte logLevel) {
-		logPlain(String.format("%s: %s", source, message), logLevel);
+	private static void log(String source, String message, LogLevel logLevel) {
+		log(message, logLevel, new LogTag(SOURCE_TAG_ID, source));
 	}
 	
 	/**
@@ -197,7 +220,7 @@ public class BasicLogger {
 	 * @param logLevel
 	 *            log level on which the message is shown
 	 */
-	private static void logException(String source, Exception e, byte logLevel) {
+	private static void logException(String source, Exception e, LogLevel logLevel) {
 		StringBuilder sb;
 
 		sb = new StringBuilder();
@@ -211,16 +234,9 @@ public class BasicLogger {
 		for(StackTraceElement elem : stackTrace) {
 			sb.append("\n" + elem.toString());
 		}
-
-		log(source, sb.toString(), logLevel);
-
-		String message = e.getMessage();
-		if ((message != null) && (message.length() > 0)) {
-			log(source, "Additional info provided is:" + message, logLevel);
-		}
 		
-		/* Same output but in "red" */
-//		System.err.println(source.getIDString() + " " + sb.toString());
+		log(e.getMessage(), logLevel, new LogTag(SOURCE_TAG_ID, source), new LogTag(EXCEPTION_STACK_TAG_ID, sb.toString()));
+		
 	}
 	
 	/**
@@ -248,7 +264,7 @@ public class BasicLogger {
 	 * @param logLevel
 	 *            log level on which the message is shown
 	 */
-	public static void logPlain(String message, int logLevel) {		
+	private static void logPlain(String message, int logLevel) {		
 		LogService logService = Activator.getLogservice();
 		if (logService != null){
 			logService.log(logLevel, message);
