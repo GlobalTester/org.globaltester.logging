@@ -24,14 +24,12 @@ public class OrFilter implements LogFilter {
 	@Override
 	public boolean logFilter(LogEntry entry) {
 
-		boolean log = false;
-
 		for (LogFilter filter : filters) {
 			// evaluate current filter
-			log |= filter.logFilter(entry);
+			if (filter.logFilter(entry)) return true;
 		}
 		
-		return log;
+		return false;
 	}
 	
 }
