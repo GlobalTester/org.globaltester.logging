@@ -10,13 +10,8 @@ import org.osgi.service.log.LogEntry;
 
 public class TagFilter implements LogFilter {
 
-	public enum Mode{
-		EXACT, AT_LEAST_ONE, ALL
-	}
-	
 	private String logTagId;
 	private String[] logTagData;
-	private Mode mode = Mode.AT_LEAST_ONE;
 
 	// Constructor
 	public TagFilter(String logTagId, String... data) {
@@ -24,11 +19,6 @@ public class TagFilter implements LogFilter {
 		this.logTagData = data;
 	}
 	
-	public TagFilter(String logTagId, Mode mode, String...data) {
-		this(logTagId, data);
-		this.mode = mode;
-	}
-
 	@Override
 	public boolean logFilter(LogEntry entry) {
 		Message m = MessageCoderJson.decode(entry.getMessage());
@@ -43,41 +33,17 @@ public class TagFilter implements LogFilter {
 	}
 
 	private boolean checkTagForData(LogTag l, String[] dataToSearchFor) {
-		boolean result;
-		
-		switch(mode){
-		case EXACT:
-		case ALL:
-			result = true;
-			break;
-		case AT_LEAST_ONE:
-		default:
-			result = false;
-			break;
-		}
+		if (logTagData.length == 0) return true;
 		
 		List<String> actualTagData = Arrays.asList(l.getAdditionalData());
 		for (String current : dataToSearchFor) {
-			switch(mode){
-			case ALL:
-			case EXACT:
-				if (!actualTagData.contains(current)) {
-					return false;
-				}
-				break;
-			case AT_LEAST_ONE:
-				if (actualTagData.contains(current)) {
-					return true;
-				}
-				break;
+			if (actualTagData.contains(current)) {
+				return true;
 			}
 		}
 		
-		if (mode.equals(Mode.EXACT)){
-			return actualTagData.size() == dataToSearchFor.length; 
-		}
 		
-		return result;
+		return false;
 	}
 
 }
