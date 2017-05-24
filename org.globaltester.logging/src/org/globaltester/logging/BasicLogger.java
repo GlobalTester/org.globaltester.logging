@@ -43,29 +43,53 @@ public class BasicLogger {
 		newMessage.addLogTag(new LogTag(LOG_LEVEL_TAG_ID, level.name()));
 		String encodedMessage = MessageCoderJson.encode(newMessage);
 		
-		int logLevelForOsgi = 0;
-		
-		switch (level){
+		logPlain(encodedMessage, convertLogLevelToOsgi(level));
+	}
+
+	/**
+	 * This converts {@link LogLevel} to the best fitting OSGi log level. This
+	 * is a lossy operation since OSGi only specifies 4 levels.
+	 * 
+	 * @param gtLevel
+	 * @return
+	 */
+	public static int convertLogLevelToOsgi(LogLevel gtLevel) {
+		switch (gtLevel) {
 		case WARN:
-			logLevelForOsgi = org.osgi.service.log.LogService.LOG_WARNING;
-			break;
+			return org.osgi.service.log.LogService.LOG_WARNING;
 		case DEBUG:
-			logLevelForOsgi = org.osgi.service.log.LogService.LOG_DEBUG;
-			break;
+			return org.osgi.service.log.LogService.LOG_DEBUG;
 		case FATAL:
 		case ERROR:
-			logLevelForOsgi = org.osgi.service.log.LogService.LOG_ERROR;
-			break;
+			return org.osgi.service.log.LogService.LOG_ERROR;
 		case TRACE:
 		case INFO:
 		default:
-			logLevelForOsgi = org.osgi.service.log.LogService.LOG_INFO;
-			break;
+			return org.osgi.service.log.LogService.LOG_INFO;
 		}
-		
-		logPlain(encodedMessage, logLevelForOsgi);
 	}
 
+
+	/**
+	 * This converts OSGi log level to {@link LogLevel}.
+	 * 
+	 * @param osgiLogLevel
+	 * @return the fitting
+	 */
+	public static LogLevel convertOsgiToLogLevel(int osgiLogLevel){
+		switch (osgiLogLevel) {
+		case org.osgi.service.log.LogService.LOG_WARNING:
+			return LogLevel.WARN;
+		case org.osgi.service.log.LogService.LOG_DEBUG:
+			return LogLevel.DEBUG;
+		case org.osgi.service.log.LogService.LOG_ERROR:
+			return LogLevel.ERROR;
+		case org.osgi.service.log.LogService.LOG_INFO:
+			return LogLevel.INFO;
+		}
+		return LogLevel.TRACE;
+	}
+	
 	/**
 	 * Find the first external class where the call to the logging methods
 	 * occured or return the calling class to this method if no external
