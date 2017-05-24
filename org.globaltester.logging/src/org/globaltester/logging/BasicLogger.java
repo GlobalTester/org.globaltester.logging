@@ -15,8 +15,8 @@ public class BasicLogger {
 	public static final String ORIGIN_CLASS_TAG_ID = "Originating class";
 	public static final String SOURCE_TAG_ID = "Source";
 	public static final String EXCEPTION_STACK_TAG_ID = "Exception stack trace";
-	public static final String ORIGIN_THREAD_TAG_ID = "Originating thread";
-	public static final String LOG_LEVEL_TAG_ID = "Originating thread";
+	public static final String ORIGIN_THREAD_GROUP_TAG_ID = "Originating thread group";
+	public static final String LOG_LEVEL_TAG_ID = "Logging level";
 	public static final String UI_TAG_ID = "User interface message";
 	
 	private static final LogLevel LOGLEVEL_DFLT = LogLevel.DEBUG;
@@ -39,7 +39,7 @@ public class BasicLogger {
 	public static void log(String messageContent, LogLevel level , LogTag... logTags) {
 		Message newMessage = new Message(messageContent, logTags);
 		newMessage.addLogTag(new LogTag(ORIGIN_CLASS_TAG_ID, getOriginClass()));
-		newMessage.addLogTag(new LogTag(ORIGIN_THREAD_TAG_ID, Long.toString(Thread.currentThread().getId())));
+		newMessage.addLogTag(new LogTag(ORIGIN_THREAD_GROUP_TAG_ID, Thread.currentThread().getThreadGroup().getName()));
 		newMessage.addLogTag(new LogTag(LOG_LEVEL_TAG_ID, level.name()));
 		String encodedMessage = MessageCoderJson.encode(newMessage);
 		
