@@ -7,20 +7,28 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceListener;
+import org.osgi.service.log.LogListener;
 import org.osgi.service.log.LogReaderService;
 import org.osgi.util.tracker.ServiceTracker;
 
+/**
+ * This class wraps a given {@link LogListener} and contains the logic needed to
+ * attach it to the OSGi logging system.
+ * 
+ * @author mboonk
+ *
+ */
 public class OsgiLogger {
 	private LinkedList<LogReaderService> readers = new LinkedList<>();
 	private ServiceTracker<LogReaderService, LogReaderService> logReaderTracker;
 	
 	private ServiceListener serviceListener;
 	private BundleContext context;
-	private FileLogger fileLogger;
+	private LogListener logListener;
 	
-	public OsgiLogger(BundleContext context, FileLogger fileLogger) {
+	public OsgiLogger(BundleContext context, LogListener logListener) {
 		this.context = context;
-		this.fileLogger = fileLogger;
+		this.logListener = logListener;
 
 		// This will be used to keep track of listeners as they are un/registering
 		serviceListener = new ServiceListener() {
@@ -31,9 +39,9 @@ public class OsgiLogger {
 				if (readerService != null){
 					if (event.getType() == ServiceEvent.REGISTERED){
 						readers.add(readerService);
-						readerService.addLogListener(fileLogger);
+						readerService.addLogListener(logListener);
 					} else if (event.getType() == ServiceEvent.UNREGISTERING){
-						readerService.removeLogListener(fileLogger);
+						readerService.removeLogListener(logListener);
 						readers.remove(readerService);
 					}
 				}
@@ -50,7 +58,7 @@ public class OsgiLogger {
 			for (int i=0; i<readers.length; i++){
 				LogReaderService readerService = (LogReaderService) readers [i];
 				this.readers.add(readerService);
-				readerService.addLogListener(fileLogger);
+				readerService.addLogListener(logListener);
 			}
 		}
 		
@@ -69,7 +77,7 @@ public class OsgiLogger {
         while (iterator.hasNext())
         {
             LogReaderService readerService = iterator.next();
-            readerService.removeLogListener(fileLogger);
+            readerService.removeLogListener(logListener);
             iterator.remove();
         }
 		logReaderTracker.close();
