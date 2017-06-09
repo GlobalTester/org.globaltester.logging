@@ -1,5 +1,6 @@
 package org.globaltester.logging.filelogger;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +16,7 @@ import org.osgi.service.log.LogListener;
  * @author mboonk
  *
  */
-public class FileLogger extends AbstractLogListener {
+public class FileLogger extends AbstractLogListener implements Closeable {
 
 	private PrintWriter writer;
 	private File file;
@@ -50,4 +51,13 @@ public class FileLogger extends AbstractLogListener {
 		return "Output: " + file.getAbsolutePath().toString() + " " +  super.toString();
 	}
 
+	public void shutdown(){
+		writer.close();
+	}
+
+	@Override
+	public void close() throws IOException {
+		writer.close();
+	}
+	
 }

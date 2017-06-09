@@ -1,8 +1,11 @@
 package org.globaltester.logging.filelogger;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.globaltester.logging.BasicLogger;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceEvent;
@@ -74,6 +77,14 @@ public class OsgiLogger {
 	
 	public void stop() {
 		Iterator<LogReaderService> iterator = readers.iterator();
+		if (logListener instanceof Closeable){
+			try {
+				((Closeable) logListener).close();
+			} catch (IOException e) {
+				// try closing the listeners resources
+				BasicLogger.log(this.getClass(), "Error while closing the log listener " + logListener, BasicLogger.ERROR);
+			}
+		}
         while (iterator.hasNext())
         {
             LogReaderService readerService = iterator.next();
