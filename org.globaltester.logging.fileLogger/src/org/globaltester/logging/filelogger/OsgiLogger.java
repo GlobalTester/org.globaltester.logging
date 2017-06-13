@@ -22,7 +22,7 @@ import org.osgi.util.tracker.ServiceTracker;
  *
  */
 public class OsgiLogger {
-	private LinkedList<LogReaderService> readers = new LinkedList<>();
+	private LinkedList<LogReaderService> readerServices = new LinkedList<>();
 	private ServiceTracker<LogReaderService, LogReaderService> logReaderTracker;
 	
 	private ServiceListener serviceListener;
@@ -41,11 +41,11 @@ public class OsgiLogger {
 				LogReaderService readerService = (LogReaderService) bundleContext.getService(event.getServiceReference());
 				if (readerService != null){
 					if (event.getType() == ServiceEvent.REGISTERED){
-						readers.add(readerService);
+						readerServices.add(readerService);
 						readerService.addLogListener(logListener);
 					} else if (event.getType() == ServiceEvent.UNREGISTERING){
 						readerService.removeLogListener(logListener);
-						readers.remove(readerService);
+						readerServices.remove(readerService);
 					}
 				}
 			}
@@ -56,11 +56,11 @@ public class OsgiLogger {
 		
 		logReaderTracker = new ServiceTracker<>(context, LogReaderService.class.getName(), null);
 		logReaderTracker.open();
-		Object[] readers = logReaderTracker.getServices();
-		if (readers != null){
-			for (int i=0; i<readers.length; i++){
-				LogReaderService readerService = (LogReaderService) readers [i];
-				this.readers.add(readerService);
+		Object[] trackerServices = logReaderTracker.getServices();
+		if (trackerServices != null){
+			for (int i=0; i<trackerServices.length; i++){
+				LogReaderService readerService = (LogReaderService) trackerServices [i];
+				this.readerServices.add(readerService);
 				readerService.addLogListener(logListener);
 			}
 		}
@@ -70,19 +70,19 @@ public class OsgiLogger {
         try {
             context.addServiceListener(serviceListener, filter);
         } catch (InvalidSyntaxException e) {
-            e.printStackTrace();
+			BasicLogger.logException(this.getClass(), e);
         }
 
 	}
 	
 	public void stop() {
-		Iterator<LogReaderService> iterator = readers.iterator();
+		Iterator<LogReaderService> iterator = readerServices.iterator();
 		if (logListener instanceof Closeable){
 			try {
 				((Closeable) logListener).close();
 			} catch (IOException e) {
 				// try closing the listeners resources
-				BasicLogger.log(this.getClass(), "Error while closing the log listener " + logListener, BasicLogger.ERROR);
+				BasicLogger.logException(this.getClass(), e);
 			}
 		}
         while (iterator.hasNext())
