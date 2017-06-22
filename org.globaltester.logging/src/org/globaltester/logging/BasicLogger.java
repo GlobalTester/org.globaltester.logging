@@ -2,7 +2,6 @@ package org.globaltester.logging;
 
 import org.globaltester.logging.tags.LogLevel;
 import org.globaltester.logging.tags.LogTag;
-import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.log.LogService;
 /**
  * This class is a Logger with basic functionalities.
@@ -10,7 +9,7 @@ import org.osgi.service.log.LogService;
  * @author amay
  * 
  */
-public class BasicLogger {
+public final class BasicLogger {
 
 	public static final String ORIGIN_CLASS_TAG_ID = "Originating class";
 	public static final String SOURCE_TAG_ID = "Source";
@@ -56,16 +55,16 @@ public class BasicLogger {
 	public static int convertLogLevelToOsgi(LogLevel gtLevel) {
 		switch (gtLevel) {
 		case WARN:
-			return org.osgi.service.log.LogService.LOG_WARNING;
+			return LogService.LOG_WARNING;
 		case DEBUG:
-			return org.osgi.service.log.LogService.LOG_DEBUG;
+			return LogService.LOG_DEBUG;
 		case FATAL:
 		case ERROR:
-			return org.osgi.service.log.LogService.LOG_ERROR;
+			return LogService.LOG_ERROR;
 		case TRACE:
 		case INFO:
 		default:
-			return org.osgi.service.log.LogService.LOG_INFO;
+			return LogService.LOG_INFO;
 		}
 	}
 
@@ -78,16 +77,17 @@ public class BasicLogger {
 	 */
 	public static LogLevel convertOsgiToLogLevel(int osgiLogLevel){
 		switch (osgiLogLevel) {
-		case org.osgi.service.log.LogService.LOG_WARNING:
+		case LogService.LOG_WARNING:
 			return LogLevel.WARN;
-		case org.osgi.service.log.LogService.LOG_DEBUG:
+		case LogService.LOG_DEBUG:
 			return LogLevel.DEBUG;
-		case org.osgi.service.log.LogService.LOG_ERROR:
+		case LogService.LOG_ERROR:
 			return LogLevel.ERROR;
-		case org.osgi.service.log.LogService.LOG_INFO:
+		case LogService.LOG_INFO:
 			return LogLevel.INFO;
+		default:
+			return LogLevel.TRACE;
 		}
-		return LogLevel.TRACE;
 	}
 	
 	/**
@@ -99,24 +99,18 @@ public class BasicLogger {
 	 */
 	private static String getOriginClass(){
 		StackTraceElement [] stack = Thread.currentThread().getStackTrace();
-		for (StackTraceElement e : stack){
-			Class<?> classFromStackTraceElement;
-			
-			try {
-				classFromStackTraceElement = Activator.class.getClassLoader().loadClass(e.getClassName());
-			} catch (ClassNotFoundException e1) {
-				return e.getClassName();
-			}
-			
-			if (classFromStackTraceElement.getCanonicalName().startsWith("java.")){
+		for (StackTraceElement curElem : stack){
+			if (curElem.getClassName().startsWith("java.")){
 				continue;
 			}
 			
-			if (Activator.getContext() == null || !Activator.getContext().getBundle().equals(FrameworkUtil.getBundle(classFromStackTraceElement))){
-				return e.getClassName();
+			if (curElem.getClassName().startsWith("org.globaltester.logging.")){
+				continue;
 			}
+			
+			return curElem.getClassName();
 		}
-		return stack[1].getClassName();
+		return "unknown origin class";
 	}
 	
 	/**
@@ -293,7 +287,7 @@ public class BasicLogger {
 		if (logService != null){
 			logService.log(logLevel, message);
 		} else {
-			System.out.println(message);
+			System.out.println(message); //NOSONAR System.out is valid fallback within logger
 		}
 		
 	}
