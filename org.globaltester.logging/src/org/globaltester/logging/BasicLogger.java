@@ -19,15 +19,6 @@ public final class BasicLogger {
 	public static final String UI_TAG_ID = "User interface message";
 	
 	private static final LogLevel LOGLEVEL_DFLT = LogLevel.DEBUG;
-
-	
-	//XXX should be removed in favor of direct access to LogLevel
-	public static final LogLevel TRACE = LogLevel.TRACE;
-	public static final LogLevel DEBUG = LogLevel.DEBUG;
-	public static final LogLevel INFO = LogLevel.INFO;
-	public static final LogLevel WARN = LogLevel.WARN;
-	public static final LogLevel ERROR = LogLevel.ERROR;
-	public static final LogLevel FATAL = LogLevel.FATAL;
 	
 	/**
 	 * Ensure that this type can not be instantiated
