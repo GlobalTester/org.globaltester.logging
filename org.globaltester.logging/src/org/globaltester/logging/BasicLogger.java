@@ -196,7 +196,7 @@ public final class BasicLogger {
 	 *            log level on which the exception is shown
 	 */
 	public static void logException(InfoSource source, Exception e, LogLevel logLevel) {
-		logException(source.getIDString(), e, logLevel);
+		logException(source.getIDString(), e.getMessage(), e, logLevel);
 	}
 	
 	/**
@@ -210,7 +210,21 @@ public final class BasicLogger {
 	 *            log level on which the exception is shown
 	 */
 	public static void logException(Class<?> className, Exception e, LogLevel logLevel) {
-		logException(className.getCanonicalName(), e, logLevel);
+		logException(className.getCanonicalName(), e.getMessage(), e, logLevel);
+	}
+	
+	/**
+	 * Write exception to the log, including origin of that message.
+	 * 
+	 * @param message
+	 *            the message to be logged
+	 * @param e
+	 *            the Exception to be logged
+	 * @param logLevel
+	 *            log level on which the exception is shown
+	 */
+	public static void logException(String message, Exception e, LogLevel logLevel) {
+		logException(getOriginClass(), message, e, logLevel);
 	}
 	
 	/**
@@ -235,10 +249,12 @@ public final class BasicLogger {
 	 *            origin of this log message
 	 * @param message
 	 *            the message to be logged
+	 * @param e
+	 *            Exception to be logged
 	 * @param logLevel
 	 *            log level on which the message is shown
 	 */
-	private static void logException(String source, Exception e, LogLevel logLevel) {
+	private static void logException(String source, String message, Exception e, LogLevel logLevel) {
 		StringBuilder sb;
 
 		sb = new StringBuilder();
@@ -253,7 +269,7 @@ public final class BasicLogger {
 			sb.append("\n" + elem.toString());
 		}
 		
-		log(e.getMessage(), logLevel, new LogTag(SOURCE_TAG_ID, source), new LogTag(EXCEPTION_STACK_TAG_ID, sb.toString()));
+		log(message, logLevel, new LogTag(SOURCE_TAG_ID, source), new LogTag(EXCEPTION_STACK_TAG_ID, sb.toString()));
 		
 	}
 	
