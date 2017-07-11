@@ -31,9 +31,18 @@ public final class BasicLogger {
 		newMessage.addLogTag(new LogTag(ORIGIN_CLASS_TAG_ID, getOriginClass()));
 		newMessage.addLogTag(new LogTag(ORIGIN_THREAD_GROUP_TAG_ID, Thread.currentThread().getThreadGroup().getName()));
 		newMessage.addLogTag(new LogTag(LOG_LEVEL_TAG_ID, level.name()));
-		String encodedMessage = MessageCoderJson.encode(newMessage);
 		
-		logPlain(encodedMessage, convertLogLevelToOsgi(level));
+		LogService logService = Activator.getLogservice();
+		if (logService != null){
+			logService.log(convertLogLevelToOsgi(level), MessageCoderJson.encode(newMessage));
+		} else {
+			if (level.ordinal()<= LogLevel.ERROR.ordinal()) {
+				System.err.println(messageContent); //NOSONAR System.out is valid fallback within logger
+			} else {
+				System.out.println(messageContent); //NOSONAR System.out is valid fallback within logger
+			}
+		}
+		
 	}
 
 	/**
@@ -276,26 +285,5 @@ public final class BasicLogger {
 	 */
 	public static void logException(Class<?> className, Exception e) {
 		logException(className, e, LOGLEVEL_DFLT);
-	}
-	
-	/**
-	 * This message provides direct unprocessed write access to the log.
-	 * Use this method only if this is exactly what you want and you know what
-	 * you are doing. Otherwise try any other log method provided by this class,
-	 * e.g. {@link #log(InfoSource, String, byte)}
-	 * 
-	 * @param message
-	 *            the message to be logged
-	 * @param logLevel
-	 *            log level on which the message is shown
-	 */
-	private static void logPlain(String message, int logLevel) {		
-		LogService logService = Activator.getLogservice();
-		if (logService != null){
-			logService.log(logLevel, message);
-		} else {
-			System.out.println(message); //NOSONAR System.out is valid fallback within logger
-		}
-		
 	}
 }
