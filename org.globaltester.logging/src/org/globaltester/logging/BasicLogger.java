@@ -216,6 +216,20 @@ public final class BasicLogger {
 	/**
 	 * Write exception to the log, including origin of that message.
 	 * 
+	 * @param className
+	 *            originating class of this log message
+	 * @param e
+	 *            the Exception to be logged
+	 * @param logLevel
+	 *            log level on which the exception is shown
+	 */
+	public static void logException(Class<?> className, String message, Exception e, LogLevel logLevel) {
+		logException(className.getCanonicalName(), message, e, logLevel);
+	}
+	
+	/**
+	 * Write exception to the log, including origin of that message.
+	 * 
 	 * @param message
 	 *            the message to be logged
 	 * @param e
@@ -285,5 +299,19 @@ public final class BasicLogger {
 	 */
 	public static void logException(Class<?> className, Exception e) {
 		logException(className, e, LOGLEVEL_DFLT);
+	}
+	
+	/**
+	 * Write exception to the log, including origin of that message.
+	 * 
+	 * This method uses LOGLEVEL_DLFT as LogLevel.
+	 * 
+	 * @param className
+	 *            originating class of this log message
+	 * @param e
+	 *            the Exception to be logged
+	 */
+	public static void logException(Class<?> className, String message, Exception e) {
+		logException(className, message, e, LOGLEVEL_DFLT);
 	}
 }
