@@ -7,6 +7,7 @@ import java.util.Date;
 import org.globaltester.logging.BasicLogger;
 import org.globaltester.logging.Message;
 import org.globaltester.logging.MessageCoderJson;
+import org.globaltester.logging.tags.LogTag;
 import org.osgi.service.log.LogEntry;
 
 /**
@@ -29,14 +30,19 @@ public class GtFileLogFormatter implements LogFormatService {
 	public String format(LogEntry entry) {
 		String date = dateFormat.format(new Date(entry.getTime())) + " - ";
 		Message message = MessageCoderJson.decode(entry.getMessage());
+		String logLevel = BasicLogger.convertOsgiToLogLevel(entry.getLevel()).name();
 		if (message != null){
-			// extracts log level and message from the encoded message
-			return date + String.format("%-5s", message.getLogTags().stream()
-							.filter(p -> p.getId().equals(BasicLogger.LOG_LEVEL_TAG_ID)).findFirst().get()
-							.getAdditionalData()[0])
-					+ " - " + message.getMessageContent();	
+			// override log level from the encoded message (if present)
+			for (LogTag curTag : message.getLogTags()) {
+				if (BasicLogger.LOG_LEVEL_TAG_ID.equals(curTag.getId())) {
+					logLevel = curTag.getAdditionalData()[0];
+					break;
+				}
+			}
+			
+			return date + String.format("%-5s", logLevel) + " - " + message.getMessageContent();	
 		} else {
-			return date + String.format("%-5s", BasicLogger.convertOsgiToLogLevel(entry.getLevel()).name()) + " - " + entry.getMessage();
+			return date + String.format("%-5s", logLevel) + " - " + entry.getMessage();
 		}
 	}
 
