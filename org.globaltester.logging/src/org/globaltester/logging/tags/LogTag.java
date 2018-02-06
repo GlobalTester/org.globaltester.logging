@@ -26,5 +26,10 @@ public class LogTag {
 	public String [] getAdditionalData (){
 		return Arrays.copyOf(additionalData, additionalData.length);
 	}
+	
+	@Override
+	public String toString() {
+		return "ID: " + id + " " + Arrays.toString(additionalData);
+	}
 
 }
