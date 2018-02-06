@@ -25,18 +25,18 @@ public class TagFilter implements LogFilter {
 		if (m != null) {
 			for (LogTag l : m.getLogTags()) {
 				if (l.getId().equals(logTagId)) {
-					return checkTagForData(l, logTagData);
+					return checkTagForData(l);
 				}
 			}
 		}
 		return false;
 	}
 
-	private boolean checkTagForData(LogTag l, String[] dataToSearchFor) {
+	private boolean checkTagForData(LogTag l) {
 		if (logTagData.length == 0) return true;
 		
 		List<String> actualTagData = Arrays.asList(l.getAdditionalData());
-		for (String current : dataToSearchFor) {
+		for (String current : logTagData) {
 			if (actualTagData.contains(current)) {
 				return true;
 			}
