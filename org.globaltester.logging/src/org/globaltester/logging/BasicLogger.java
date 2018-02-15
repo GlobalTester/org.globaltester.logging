@@ -1,5 +1,8 @@
 package org.globaltester.logging;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.globaltester.logging.tags.LogLevel;
 import org.globaltester.logging.tags.LogTag;
 import org.osgi.service.log.LogService;
@@ -19,6 +22,7 @@ public final class BasicLogger {
 	public static final String UI_TAG_ID = "User interface message";
 	
 	private static final LogLevel LOGLEVEL_DFLT = LogLevel.DEBUG;
+	private static List<LogListener> listeners = new ArrayList<>();
 	
 	/**
 	 * Ensure that this type can not be instantiated
@@ -26,11 +30,33 @@ public final class BasicLogger {
 	private BasicLogger() {
 	}
 	
+	/**
+	 * @see {@link List#add(Object)}
+	 * @param newListener
+	 * @return
+	 */
+	public static boolean addLogListener(LogListener newListener) {
+		return listeners.add(newListener);
+	}
+	
+	/**
+	 * @see {@link List#remove(Object)}
+	 * @param newListener
+	 * @return
+	 */
+	public static boolean removeLogListener(LogListener listener) {
+		return listeners.remove(listener);
+	}
+	
 	public static void log(String messageContent, LogLevel level , LogTag... logTags) {
 		Message newMessage = new Message(messageContent, logTags);
 		newMessage.addLogTag(new LogTag(ORIGIN_CLASS_TAG_ID, getOriginClass()));
 		newMessage.addLogTag(new LogTag(ORIGIN_THREAD_GROUP_TAG_ID, Thread.currentThread().getThreadGroup().getName()));
 		newMessage.addLogTag(new LogTag(LOG_LEVEL_TAG_ID, level.name()));
+		
+		for (LogListener curListener: listeners) {
+			curListener.log(newMessage);
+		}
 		
 		LogService logService = Activator.getLogservice();
 		if (logService != null){
