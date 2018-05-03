@@ -16,5 +16,5 @@ Export-Package: org.globaltester.logging,
  org.globaltester.logging.tags
 Bundle-Vendor: secunet Security Networks AG
 Require-Bundle: org.eclipse.osgi,
- org.globaltester.lib.xstream
+ org.globaltester.lib.json;bundle-version="3.2.3"
 Bundle-Activator: org.globaltester.logging.Activator

@@ -11,6 +11,6 @@ Import-Package: org.eclipse.core.runtime.preferences;version="3.3.0",
  org.osgi.service.prefs;version="1.1.1"
 Bundle-Vendor: secunet Security Networks AG
 Require-Bundle: org.eclipse.osgi,
- org.globaltester.lib.xstream,
  org.globaltester.logging,
- org.junit
+ org.junit,
+ org.globaltester.lib.json
