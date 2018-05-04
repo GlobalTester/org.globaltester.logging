@@ -8,13 +8,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MessageCoderJson {
+public final class MessageCoderJson {
 	
 	
 	public static final String MSG = "msg";
 	public static final String TAGS = "tags";
 	public static final String TAG_ID = "id";
 	public static final String TAG_ADDITIONALDATA = "additionalData";
+	
+	private MessageCoderJson() {
+		//instantiation not intended
+	}
 
 	public static String encode(Message messageObject) {
 
@@ -52,7 +56,7 @@ public class MessageCoderJson {
 		}
 		
 		return recoveredMessage;
-		} catch (JSONException e) {
+		} catch (JSONException e) { //NOSONAR
 			// no valid JSON encoded message
 			return null;
 		}
