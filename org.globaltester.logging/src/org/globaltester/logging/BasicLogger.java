@@ -207,7 +207,7 @@ public final class BasicLogger {
 	 * @param e
 	 *            the Exception to be logged
 	 */
-	public static void logException(InfoSource source, Exception e) {
+	public static void logException(InfoSource source, Throwable e) {
 		logException(source, e, LOGLEVEL_DFLT);
 	}
 
@@ -221,7 +221,7 @@ public final class BasicLogger {
 	 * @param logLevel
 	 *            log level on which the exception is shown
 	 */
-	public static void logException(InfoSource source, Exception e, LogLevel logLevel) {
+	public static void logException(InfoSource source, Throwable e, LogLevel logLevel) {
 		logException(source.getIDString(), e.getMessage(), e, logLevel);
 	}
 	
@@ -235,7 +235,7 @@ public final class BasicLogger {
 	 * @param logLevel
 	 *            log level on which the exception is shown
 	 */
-	public static void logException(Class<?> className, Exception e, LogLevel logLevel) {
+	public static void logException(Class<?> className, Throwable e, LogLevel logLevel) {
 		logException(className.getCanonicalName(), e.getMessage(), e, logLevel);
 	}
 	
@@ -249,7 +249,7 @@ public final class BasicLogger {
 	 * @param logLevel
 	 *            log level on which the exception is shown
 	 */
-	public static void logException(Class<?> className, String message, Exception e, LogLevel logLevel) {
+	public static void logException(Class<?> className, String message, Throwable e, LogLevel logLevel) {
 		logException(className.getCanonicalName(), message, e, logLevel);
 	}
 	
@@ -263,7 +263,7 @@ public final class BasicLogger {
 	 * @param logLevel
 	 *            log level on which the exception is shown
 	 */
-	public static void logException(String message, Exception e, LogLevel logLevel) {
+	public static void logException(String message, Throwable e, LogLevel logLevel) {
 		logException(getOriginClass(), message, e, logLevel);
 	}
 	
@@ -294,7 +294,7 @@ public final class BasicLogger {
 	 * @param logLevel
 	 *            log level on which the message is shown
 	 */
-	private static void logException(String source, String message, Exception e, LogLevel logLevel) {
+	private static void logException(String source, String message, Throwable e, LogLevel logLevel) {
 		StringBuilder sb;
 
 		sb = new StringBuilder();
