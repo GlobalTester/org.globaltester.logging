@@ -301,7 +301,8 @@ public final class BasicLogger {
 
 		sb.append("encountered the following exception: ");
 		sb.append(e.getClass().getCanonicalName());
-		sb.append(" at");
+		sb.append("\n reason: " + e.getMessage());
+		sb.append("\n at");
 		
 		StackTraceElement[] stackTrace = e.getStackTrace();
 		
