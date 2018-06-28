@@ -1,7 +1,6 @@
 package org.globaltester.logging.format;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.globaltester.logging.BasicLogger;
@@ -17,8 +16,8 @@ import org.osgi.service.log.LogEntry;
  */
 public class GtFileLogFormatter implements LogFormatService {
 
-	public static final DateFormat DATE_FORMAT_GT = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss,SSS");
-	public static final DateFormat DATE_FORMAT_ISO = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+	public static final String DATE_FORMAT_GT_STRING = "yyyy-MM-dd' 'HH:mm:ss,SSS";
+	public static final String DATE_FORMAT_GT_ISO_STRING = "yyyy-MM-dd'T'HH:mm:ss";
 
 	DateFormat dateFormat;
 	
@@ -30,17 +29,31 @@ public class GtFileLogFormatter implements LogFormatService {
 	public String format(LogEntry entry) {
 		String date = dateFormat.format(new Date(entry.getTime())) + " - ";
 		Message message = MessageCoderJson.decode(entry.getMessage());
-		String logLevel = BasicLogger.convertOsgiToLogLevel(entry.getLevel()).name();
+		String stackTrace = null;
+		String logLevel = null;
 		if (message != null){
 			// override log level from the encoded message (if present)
 			for (LogTag curTag : message.getLogTags()) {
-				if (BasicLogger.LOG_LEVEL_TAG_ID.equals(curTag.getId())) {
+				if (BasicLogger.LOG_LEVEL_TAG_ID.equals(curTag.getId()) && curTag.getAdditionalData().length >= 1) {
 					logLevel = curTag.getAdditionalData()[0];
+				}
+				if (BasicLogger.EXCEPTION_STACK_TAG_ID.equals(curTag.getId()) && curTag.getAdditionalData().length >= 1) {
+					stackTrace = curTag.getAdditionalData()[0];
+				}
+				if (logLevel != null && stackTrace != null) {
 					break;
 				}
 			}
 			
-			return date + String.format("%-5s", logLevel) + " - " + message.getMessageContent();	
+			if (logLevel == null) {
+				logLevel = BasicLogger.convertOsgiToLogLevel(entry.getLevel()).name();
+			}
+			
+			String logMessage = date + String.format("%-5s", logLevel) + " - " + message.getMessageContent();
+			if (stackTrace != null) {
+				logMessage += "\n" + stackTrace;
+			}
+			return logMessage;	
 		} else {
 			return date + String.format("%-5s", logLevel) + " - " + entry.getMessage();
 		}
