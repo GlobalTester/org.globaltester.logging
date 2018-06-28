@@ -1,5 +1,8 @@
 package org.globaltester.logging;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -301,8 +304,16 @@ public final class BasicLogger {
 
 		sb.append("encountered the following exception: ");
 		sb.append(e.getClass().getCanonicalName());
-		sb.append("\n reason: " + e.getMessage());
-		sb.append("\n at");
+		
+		try (StringWriter sw = new StringWriter(); PrintWriter pw = new PrintWriter(sw)){
+			e.printStackTrace(pw);
+			sb.append("\n");
+			sb.append(sw.toString());
+		} catch (IOException e1) { //NOSONAR exception stack trace extraction does not work properly, trying to log this exception will not work either
+			sb.append("\n reason: " + e.getMessage());
+			sb.append("\n no stack trace output possible because of" + e1.toString());
+			e1.printStackTrace(); //NOSONAR System.err is valid fallback within logger
+		}
 		
 		StackTraceElement[] stackTrace = e.getStackTrace();
 		
