@@ -34,12 +34,8 @@ public class GtFileLogFormatter implements LogFormatService {
 		if (message != null){
 			// override log level from the encoded message (if present)
 			for (LogTag curTag : message.getLogTags()) {
-				if (BasicLogger.LOG_LEVEL_TAG_ID.equals(curTag.getId()) && curTag.getAdditionalData().length >= 1) {
-					logLevel = curTag.getAdditionalData()[0];
-				}
-				if (BasicLogger.EXCEPTION_STACK_TAG_ID.equals(curTag.getId()) && curTag.getAdditionalData().length >= 1) {
-					stackTrace = curTag.getAdditionalData()[0];
-				}
+				logLevel = extractTag(curTag, BasicLogger.LOG_LEVEL_TAG_ID);
+				stackTrace = extractTag(curTag, BasicLogger.EXCEPTION_STACK_TAG_ID);
 				if (logLevel != null && stackTrace != null) {
 					break;
 				}
@@ -59,4 +55,19 @@ public class GtFileLogFormatter implements LogFormatService {
 		}
 	}
 
+	/**
+	 * Check if the tag has the given ID and if so extract the first additional data string.
+	 * 
+	 * @param curTag tag to be checked
+	 * @param id 
+	 * @return the first additional data string if available and the ID matches the tag, else null 
+	 */
+	private static String extractTag(LogTag curTag, String id) {
+		if (id.equals(curTag.getId()) && curTag.getAdditionalData().length >= 1) {
+			return curTag.getAdditionalData()[0];
+		}
+		return null;
+	}
+
+	
 }
