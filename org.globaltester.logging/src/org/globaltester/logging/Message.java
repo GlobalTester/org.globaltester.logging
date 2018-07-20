@@ -50,16 +50,25 @@ public class Message {
 		if (getClass() != obj.getClass())
 			return false;
 		Message other = (Message) obj;
+		
 		if (messageContent == null) {
 			if (other.messageContent != null)
 				return false;
-		} else if (!messageContent.equals(other.messageContent))
+		} else if (!messageContent.equals(other.messageContent)) {
 			return false;
+		} else {
+			//messageContent fields are equal
+		}
+		
 		if (messageTags == null) {
 			if (other.messageTags != null)
 				return false;
-		} else if (!messageTags.equals(other.messageTags))
+		} else if (!messageTags.equals(other.messageTags)) {
 			return false;
+		} else {
+			//messageTags fields are equal
+		}
+		
 		return true;
 	}
 	
