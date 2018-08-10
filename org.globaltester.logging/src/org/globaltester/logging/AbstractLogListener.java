@@ -1,25 +1,22 @@
 package org.globaltester.logging;
 
-import org.osgi.service.log.LogEntry;
-import org.osgi.service.log.LogListener;
-
 /**
  * The class provides a standard {@link #logged(LogEntry)} method that formats
  * and filters incoming log entries. Those entries can be printed with
  * {@link #displayLogMessage(String)}.
  * 
- * @author jkoch
+ * @author amay
  *
  */
 public abstract class AbstractLogListener implements LogListener {
 	private LogListenerConfig config = new LogListenerConfigImpl();
 	
 	@Override
-	public void logged(LogEntry entry) {
-		if (config.getFilter().logFilter(entry) == true) {
+	public void log(Message msg) {
+		if (config.getFilter().matches(msg)) {
 			// format the entry
-			String msg = config.getFormat().format(entry);
-			displayLogMessage(msg);
+			String formattedMsg = config.getFormat().format(msg);
+			displayLogMessage(formattedMsg);
 		}
 	}
 	

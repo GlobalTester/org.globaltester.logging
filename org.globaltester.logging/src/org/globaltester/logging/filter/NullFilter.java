@@ -1,6 +1,6 @@
 package org.globaltester.logging.filter;
 
-import org.osgi.service.log.LogEntry;
+import org.globaltester.logging.Message;
 
 /**
  * Simple filter that just always returns true which means that the log entry
@@ -12,7 +12,7 @@ import org.osgi.service.log.LogEntry;
 public class NullFilter implements LogFilter {
 
 	@Override
-	public boolean logFilter(LogEntry entry) {
+	public boolean matches(Message msg) {
 		return true;
 	}
 
