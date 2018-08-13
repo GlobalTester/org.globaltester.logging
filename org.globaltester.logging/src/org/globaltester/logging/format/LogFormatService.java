@@ -1,6 +1,6 @@
 package org.globaltester.logging.format;
 
-import org.osgi.service.log.LogEntry;
+import org.globaltester.logging.Message;
 
 /**
  * Service for formatting log messages
@@ -11,12 +11,12 @@ import org.osgi.service.log.LogEntry;
 public interface LogFormatService {
 	
 	/**
-	 * returns a formatted LogEntry object. 
+	 * returns a formatted String representing the {@link Message} object. 
 	 * 
-	 * @param LogEntry
-	 *            	the Log message to format
+	 * @param msg
+	 *            	the {@link Message} object to be formatted
 	 * @return the formatted log message as a String
 	 */
-	public String format(LogEntry entry);
+	public String format(Message msg);
 
 }

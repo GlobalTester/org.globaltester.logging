@@ -1,6 +1,6 @@
 package org.globaltester.logging.filter;
 
-import org.osgi.service.log.LogEntry;
+import org.globaltester.logging.Message;
 
 /**
  * Filtering evaluates as logical OR of the results of all containes filters.
@@ -22,14 +22,15 @@ public class OrFilter implements LogFilter {
 	}
 
 	@Override
-	public boolean logFilter(LogEntry entry) {
+	public boolean matches(Message msg) {
+
+		boolean log = false;
 
 		for (LogFilter filter : filters) {
 			// evaluate current filter
-			if (filter.logFilter(entry)) return true;
-		}
-		
-		return false;
+			log |= filter.matches(msg);
+		}		
+		return log;
 	}
 	
 }

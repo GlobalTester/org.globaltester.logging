@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.globaltester.logging.AbstractLogListener;
-import org.osgi.service.log.LogEntry;
-import org.osgi.service.log.LogListener;
 
 /**
  * This {@link LogListener} implementation writes all {@link LogEntry}s into a

@@ -4,14 +4,9 @@ Bundle-Name: GT Logging
 Bundle-SymbolicName: org.globaltester.logging
 Bundle-Version: 3.3.1.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: org.osgi.framework,
- org.osgi.service.log,
- org.osgi.util.tracker,
- org.json
 Bundle-ActivationPolicy: lazy
 Export-Package: org.globaltester.logging,
  org.globaltester.logging.filter,
  org.globaltester.logging.format,
  org.globaltester.logging.tags
 Bundle-Vendor: secunet Security Networks AG
-Bundle-Activator: org.globaltester.logging.Activator

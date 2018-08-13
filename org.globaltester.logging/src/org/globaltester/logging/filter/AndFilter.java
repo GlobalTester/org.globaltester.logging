@@ -1,6 +1,6 @@
 package org.globaltester.logging.filter;
 
-import org.osgi.service.log.LogEntry;
+import org.globaltester.logging.Message;
 
 /**
  * Filtering evaluates as logical AND of the results of all contained filters
@@ -22,13 +22,13 @@ public class AndFilter implements LogFilter{
 	}
 
 	@Override
-	public boolean logFilter(LogEntry entry) {
+	public boolean matches(Message msg) {
 		
 		boolean log = true;
 
 		for (LogFilter filter : filters) {
 			// evaluate current filter
-			log &= filter.logFilter(entry);
+			log &= filter.matches(msg);
 		}		
 		return log;
 	}

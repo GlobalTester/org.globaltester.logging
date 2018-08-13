@@ -4,9 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.globaltester.logging.Message;
-import org.globaltester.logging.MessageCoderJson;
 import org.globaltester.logging.tags.LogTag;
-import org.osgi.service.log.LogEntry;
 
 public class TagFilter implements LogFilter {
 
@@ -20,22 +18,21 @@ public class TagFilter implements LogFilter {
 	}
 	
 	@Override
-	public boolean logFilter(LogEntry entry) {
-		Message m = MessageCoderJson.decode(entry.getMessage());
-		if (m != null) {
-			for (LogTag l : m.getLogTags()) {
-				if (l.getId().equals(logTagId)) {
-					return checkTagForData(l);
+	public boolean matches(Message msg) {
+		if (msg != null) {
+			for (LogTag curTag : msg.getLogTags()) {
+				if (curTag.getId().equals(logTagId)) {
+					return checkTagForData(curTag);
 				}
 			}
 		}
 		return false;
 	}
 
-	private boolean checkTagForData(LogTag l) {
+	boolean checkTagForData(LogTag tag) {
 		if (logTagData.length == 0) return true;
 		
-		List<String> actualTagData = Arrays.asList(l.getAdditionalData());
+		List<String> actualTagData = Arrays.asList(tag.getAdditionalData());
 		for (String current : logTagData) {
 			if (actualTagData.contains(current)) {
 				return true;

@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.globaltester.logging.tags.LogLevel;
 import org.globaltester.logging.tags.LogTag;
-import org.osgi.service.log.LogService;
+
 /**
  * This class is a Logger with basic functionalities.
  * 
@@ -23,6 +23,7 @@ public final class BasicLogger {
 	public static final String ORIGIN_THREAD_GROUP_TAG_ID = "Originating thread group";
 	public static final String LOG_LEVEL_TAG_ID = "Logging level";
 	public static final String UI_TAG_ID = "User interface message";
+	public static final String TIMESTAMP_TAG_ID = "Timestamp";
 	
 	private static final LogLevel LOGLEVEL_DFLT = LogLevel.DEBUG;
 	private static List<LogListener> listeners = new ArrayList<>();
@@ -56,15 +57,14 @@ public final class BasicLogger {
 		newMessage.addLogTag(new LogTag(ORIGIN_CLASS_TAG_ID, getOriginClass()));
 		newMessage.addLogTag(new LogTag(ORIGIN_THREAD_GROUP_TAG_ID, Thread.currentThread().getThreadGroup().getName()));
 		newMessage.addLogTag(new LogTag(LOG_LEVEL_TAG_ID, level.name()));
+		newMessage.addLogTag(new LogTag(TIMESTAMP_TAG_ID, Long.toString(System.currentTimeMillis())));
 		
 		for (LogListener curListener: listeners) {
 			curListener.log(newMessage);
 		}
 		
-		LogService logService = Activator.getLogservice();
-		if (logService != null){
-			logService.log(convertLogLevelToOsgi(level), MessageCoderJson.encode(newMessage));
-		} else {
+		//fallback
+		if (listeners.isEmpty()) {
 			if (level.ordinal()<= LogLevel.ERROR.ordinal()) {
 				System.err.println(messageContent); //NOSONAR System.out is valid fallback within logger
 			} else {
@@ -72,51 +72,6 @@ public final class BasicLogger {
 			}
 		}
 		
-	}
-
-	/**
-	 * This converts {@link LogLevel} to the best fitting OSGi log level. This
-	 * is a lossy operation since OSGi only specifies 4 levels.
-	 * 
-	 * @param gtLevel
-	 * @return
-	 */
-	public static int convertLogLevelToOsgi(LogLevel gtLevel) {
-		switch (gtLevel) {
-		case WARN:
-			return LogService.LOG_WARNING;
-		case DEBUG:
-			return LogService.LOG_DEBUG;
-		case FATAL:
-		case ERROR:
-			return LogService.LOG_ERROR;
-		case TRACE:
-		case INFO:
-		default:
-			return LogService.LOG_INFO;
-		}
-	}
-
-
-	/**
-	 * This converts OSGi log level to {@link LogLevel}.
-	 * 
-	 * @param osgiLogLevel
-	 * @return the fitting
-	 */
-	public static LogLevel convertOsgiToLogLevel(int osgiLogLevel){
-		switch (osgiLogLevel) {
-		case LogService.LOG_WARNING:
-			return LogLevel.WARN;
-		case LogService.LOG_DEBUG:
-			return LogLevel.DEBUG;
-		case LogService.LOG_ERROR:
-			return LogLevel.ERROR;
-		case LogService.LOG_INFO:
-			return LogLevel.INFO;
-		default:
-			return LogLevel.TRACE;
-		}
 	}
 	
 	/**
