@@ -1,8 +1,5 @@
 package org.globaltester.logging.format;
 
-import java.text.DateFormat;
-import java.util.Date;
-
 import org.globaltester.logging.BasicLogger;
 import org.globaltester.logging.Message;
 import org.globaltester.logging.tags.LogTag;
@@ -13,15 +10,12 @@ import org.globaltester.logging.tags.LogTag;
  */
 public class LogFormat implements LogFormatService {
 
-	DateFormat format = DateFormat.getDateTimeInstance();
-	
 	@Override
 	public String format(Message msg) {
-		String strEntry = "["
+		return "["
 				+ getLogLevel(msg) + " - "
-				+ getTimestamp(msg, format) + "] "
+				+ getTimestamp(msg) + "] "
 				+ msg.getMessageContent();
-		return strEntry;
 	}
 
 	/**
@@ -40,14 +34,9 @@ public class LogFormat implements LogFormatService {
 		return null;
 	}
 	
-	public static String getTimestamp(Message msg, DateFormat format) {
+	public static String getTimestamp(Message msg) {
 		String tagValue = extractTag(msg, BasicLogger.TIMESTAMP_TAG_ID);
-		
-		if (tagValue != null) {
-			return format.format(new Date(Long.valueOf(tagValue)));	
-		} else {
-			return "";
-		}
+		return tagValue != null ? tagValue: "";
 	}
 
 	public static String getLogLevel(Message msg){

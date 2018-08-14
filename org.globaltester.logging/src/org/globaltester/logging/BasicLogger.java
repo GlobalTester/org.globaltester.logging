@@ -3,7 +3,9 @@ package org.globaltester.logging;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.globaltester.logging.tags.LogLevel;
@@ -26,7 +28,7 @@ public final class BasicLogger {
 	public static final String TIMESTAMP_TAG_ID = "Timestamp";
 	
 	private static final LogLevel LOGLEVEL_DFLT = LogLevel.DEBUG;
-	private static List<LogListener> listeners = new ArrayList<>();
+	private static List<LogListener> listeners = new LinkedList<>();
 	
 	/**
 	 * Ensure that this type can not be instantiated
@@ -57,7 +59,7 @@ public final class BasicLogger {
 		newMessage.addLogTag(new LogTag(ORIGIN_CLASS_TAG_ID, getOriginClass()));
 		newMessage.addLogTag(new LogTag(ORIGIN_THREAD_GROUP_TAG_ID, Thread.currentThread().getThreadGroup().getName()));
 		newMessage.addLogTag(new LogTag(LOG_LEVEL_TAG_ID, level.name()));
-		newMessage.addLogTag(new LogTag(TIMESTAMP_TAG_ID, Long.toString(System.currentTimeMillis())));
+		newMessage.addLogTag(new LogTag(TIMESTAMP_TAG_ID, LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)));
 		
 		for (LogListener curListener: listeners) {
 			curListener.log(newMessage);
