@@ -174,6 +174,22 @@ public final class BasicLogger {
 	/**
 	 * Write exception to the log, including origin of that message.
 	 * 
+	 * This method uses LOGLEVEL_DLFT as LogLevel.
+	 * 
+	 * @param source
+	 *            origin of this log message
+	 * @param message
+	 *            the message to be logged
+	 * @param e
+	 *            the Exception to be logged
+	 */
+	public static void logException(InfoSource source, String message, Throwable e) {
+		logException(source, message, e, LOGLEVEL_DFLT);
+	}
+
+	/**
+	 * Write exception to the log, including origin of that message.
+	 * 
 	 * @param source
 	 *            origin of this log message
 	 * @param e
@@ -182,7 +198,21 @@ public final class BasicLogger {
 	 *            log level on which the exception is shown
 	 */
 	public static void logException(InfoSource source, Throwable e, LogLevel logLevel) {
-		logException(source.getIDString(), e.getMessage(), e, logLevel);
+		logException(source, e.getMessage(), e, logLevel);
+	}
+
+	/**
+	 * Write exception to the log, including origin of that message.
+	 * 
+	 * @param source
+	 *            origin of this log message
+	 * @param e
+	 *            the Exception to be logged
+	 * @param logLevel
+	 *            log level on which the exception is shown
+	 */
+	public static void logException(InfoSource source, String message, Throwable e, LogLevel logLevel) {
+		logException(source.getIDString(), message, e, logLevel);
 	}
 	
 	/**
