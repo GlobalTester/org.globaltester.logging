@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: GT FileLogger
 Bundle-SymbolicName: org.globaltester.logging.fileLogger
-Bundle-Version: 3.4.0.qualifier
+Bundle-Version: 3.4.1.qualifier
 Require-Bundle: org.globaltester.logging
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
