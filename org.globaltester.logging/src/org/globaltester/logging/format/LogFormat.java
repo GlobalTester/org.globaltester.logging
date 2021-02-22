@@ -1,5 +1,9 @@
 package org.globaltester.logging.format;
 
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+
 import org.globaltester.logging.BasicLogger;
 import org.globaltester.logging.Message;
 import org.globaltester.logging.tags.LogTag;
@@ -36,7 +40,12 @@ public class LogFormat implements LogFormatService {
 	
 	public static String getTimestamp(Message msg) {
 		String tagValue = extractTag(msg, BasicLogger.TIMESTAMP_TAG_ID);
-		return tagValue != null ? tagValue: "";
+		if (tagValue != null) {
+			Instant i = Instant.ofEpochMilli(Long.valueOf(tagValue));
+			return DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneOffset.systemDefault()).format(Instant.ofEpochMilli(Long.valueOf(tagValue)));
+		} else {
+			return "";
+		}
 	}
 
 	public static String getLogLevel(Message msg){

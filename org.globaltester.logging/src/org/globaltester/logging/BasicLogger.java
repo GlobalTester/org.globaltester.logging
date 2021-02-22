@@ -3,8 +3,6 @@ package org.globaltester.logging;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringJoiner;
@@ -65,8 +63,7 @@ public final class BasicLogger {
 		newMessage.addLogTag(new LogTag(ORIGIN_CLASS_TAG_ID, getOriginClass()));
 		newMessage.addLogTag(new LogTag(ORIGIN_THREAD_GROUP_TAG_ID, Thread.currentThread().getThreadGroup().getName()));
 		newMessage.addLogTag(new LogTag(LOG_LEVEL_TAG_ID, level.name()));
-		newMessage.addLogTag(new LogTag(TIMESTAMP_TAG_ID, LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)));
-
+		newMessage.addLogTag(new LogTag(TIMESTAMP_TAG_ID, Long.toString(System.currentTimeMillis())));
 		for (LogListener curListener : listeners) {
 			curListener.log(newMessage);
 		}
