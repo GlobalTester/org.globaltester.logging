@@ -41,7 +41,6 @@ public class LogFormat implements LogFormatService {
 	public static String getTimestamp(Message msg) {
 		String tagValue = extractTag(msg, BasicLogger.TIMESTAMP_TAG_ID);
 		if (tagValue != null) {
-			Instant i = Instant.ofEpochMilli(Long.valueOf(tagValue));
 			return DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneOffset.systemDefault()).format(Instant.ofEpochMilli(Long.valueOf(tagValue)));
 		} else {
 			return "";
